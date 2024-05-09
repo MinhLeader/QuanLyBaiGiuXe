@@ -1,0 +1,54 @@
+﻿@model IEnumerable<QLBGX.Models.NhanVien>
+
+@{
+    ViewData["Title"] = "Quản lý nhân viên";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<!-- Form thêm mới nhân viên -->
+<form asp-action="AddEmployee">
+    <div class="form-group">
+        <label for="TenNv">Tên Nhân Viên</label>
+        <input type="text" class="form-control" id="TenNv" name="TenNv" required>
+    </div>
+    <div class="form-group">
+        <label for="SoDienThoai">Số Điện Thoại</label>
+        <input type="text" class="form-control" id="SoDienThoai" name="SoDienThoai" required>
+    </div>
+    <!-- Các trường thông tin khác -->
+    <button type="submit" class="btn btn-primary">Thêm Nhân Viên</button>
+</form>
+
+<!-- Bảng danh sách nhân viên -->
+<table class="table">
+    <thead>
+        <tr>
+            <th>Mã NV</th>
+            <th>Tên NV</th>
+            <th>Số Điện Thoại</th>
+            <th>Địa Chỉ</th>
+            <th>Email</th>
+            <th>Chức Vụ</th>
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var nv in Model)
+        {
+            <tr>
+                <td>@nv.MaNv</td>
+                <td>@nv.TenNv</td>
+                <td>@nv.SoDienThoai</td>
+                <td>@nv.DiaChi</td>
+                <td>@nv.Email</td>
+                <td>@nv.MaChucVuNavigation.TenChucVu</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@nv.MaNv">Sửa</a> |
+                    <a asp-action="Details" asp-route-id="@nv.MaNv">Chi tiết</a> |
+                    <a asp-action="Delete" asp-route-id="@nv.MaNv">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
