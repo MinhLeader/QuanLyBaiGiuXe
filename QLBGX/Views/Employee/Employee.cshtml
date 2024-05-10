@@ -6,7 +6,7 @@
 
 <h2>@ViewData["Title"]</h2>
 
-<!-- Form thêm mới nhân viên -->
+@* <!-- Form thêm mới nhân viên -->
 <form asp-action="AddEmployee">
     <div class="form-group">
         <label for="TenNv">Tên Nhân Viên</label>
@@ -18,7 +18,7 @@
     </div>
     <!-- Các trường thông tin khác -->
     <button type="submit" class="btn btn-primary">Thêm Nhân Viên</button>
-</form>
+</form> *@
 
 <!-- Bảng danh sách nhân viên -->
 <table class="table">
@@ -44,8 +44,10 @@
                 <td>@nv.SoDienThoai</td>
                 <td>@nv.DiaChi</td>
                 <td>@nv.Email</td>
-                @* <td>@nv.MaChucVuNavigation.TenChucVu</td> *@
+                 <td>@nv.MaChucVuNavigation.TenChucVu</td> 
                 <td>
+                        <a asp-action="Create" asp-route-id="@nv.MaNv">Thêm</a> |
+
                     <a asp-action="Edit" asp-route-id="@nv.MaNv">Sửa</a> |
                     <a asp-action="Details" asp-route-id="@nv.MaNv">Chi tiết</a> |
                     <a asp-action="Delete" asp-route-id="@nv.MaNv">Xóa</a>

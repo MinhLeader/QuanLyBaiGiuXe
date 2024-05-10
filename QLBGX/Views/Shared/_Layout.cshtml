@@ -265,6 +265,14 @@
 
     <!-- Template Main JS File -->
     <script src="~/assets/js/main.js"></script>
+    @if (IsSectionDefined("Scripts"))
+    {
+        RenderSection("Scripts", required: false);
+    }
+    else
+    {
+        IgnoreSection("Scripts");
+    }
 
 </body>
 
