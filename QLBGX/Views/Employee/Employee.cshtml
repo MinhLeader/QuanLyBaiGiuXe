@@ -34,6 +34,8 @@
         </tr>
     </thead>
     <tbody>
+        @if (Model != null && Model.Any())
+        {
         @foreach (var nv in Model)
         {
             <tr>
@@ -42,12 +44,19 @@
                 <td>@nv.SoDienThoai</td>
                 <td>@nv.DiaChi</td>
                 <td>@nv.Email</td>
-                <td>@nv.MaChucVuNavigation.TenChucVu</td>
+                @* <td>@nv.MaChucVuNavigation.TenChucVu</td> *@
                 <td>
                     <a asp-action="Edit" asp-route-id="@nv.MaNv">Sửa</a> |
                     <a asp-action="Details" asp-route-id="@nv.MaNv">Chi tiết</a> |
                     <a asp-action="Delete" asp-route-id="@nv.MaNv">Xóa</a>
                 </td>
+            </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">Không có dữ liệu nhân viên.</td>
             </tr>
         }
     </tbody>

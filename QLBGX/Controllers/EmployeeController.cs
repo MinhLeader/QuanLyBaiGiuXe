@@ -118,14 +118,16 @@ namespace QLBGX.Controllers
         }
 
         // Phương thức hiển thị danh sách nhân viên
-        public IActionResult Index()
+        public IActionResult Employee()
         {
             var employees = _context.NhanViens.ToList(); // Lấy danh sách nhân viên từ database
             if (employees == null || !employees.Any())
             {
                 // Xử lý trường hợp không có nhân viên
+                employees = new List<NhanVien>(); // Tạo một danh sách rỗng để tránh lỗi NullReferenceException
             }
-            return View(employees); // Đảm bảo rằng 'employees' không phải là null
+            return View(employees); // Truyền danh sách nhân viên đến View
         }
+
     }
 }
