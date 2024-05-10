@@ -1,25 +1,25 @@
-﻿-- Bảng Khách hàng
+-- Bảng Khách hàng
 CREATE TABLE KhachHang (
   MaKH INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenKH VARCHAR(255) NOT NULL,
+  TenKH NVARCHAR(255) NOT NULL,
   SoDienThoai CHAR(12) NOT NULL,
-  DiaChi VARCHAR(255) NOT NULL,
+  DiaChi NVARCHAR(255) NOT NULL,
   Email VARCHAR(255) UNIQUE
 );
 
 -- Bảng Màu xe
 CREATE TABLE MauXe (
   MaMauXe INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenMau VARCHAR(50) NOT NULL
+  TenMau NVARCHAR(50) NOT NULL
 );
 
 -- Bảng Xe
 CREATE TABLE Xe (
   BienSoXe VARCHAR(20) PRIMARY KEY,
   MaMauXe INT NOT NULL,
-  HieuXe VARCHAR(50) NOT NULL,
-  Model VARCHAR(50) NOT NULL,
-  LoaiXe VARCHAR(50) NOT NULL,
+  HieuXe NVARCHAR(50) NOT NULL,
+  Model NVARCHAR(50) NOT NULL,
+  LoaiXe NVARCHAR(50) NOT NULL,
   FOREIGN KEY (MaMauXe) REFERENCES MauXe(MaMauXe)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE Xe (
 
 CREATE TABLE LoaiVe (
   MaLoaiVe INT PRIMARY KEY IDENTITY(1, 1),
-  TenLoaiVe VARCHAR(50) NOT NULL,
+  TenLoaiVe NVARCHAR(50) NOT NULL,
   GiaVe DECIMAL(18, 2) NOT NULL
 );
 
@@ -48,7 +48,7 @@ CREATE TABLE VeGuiXe (
 -- Bảng Khu vực
 CREATE TABLE KhuVuc (
   MaKhuVuc INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenKhuVuc VARCHAR(50) NOT NULL,
+  TenKhuVuc NVARCHAR(50) NOT NULL,
   SucChua INT NOT NULL
 );
 
@@ -57,8 +57,8 @@ CREATE TABLE ChoDoXe (
   MaChoDoXe INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
   MaKhuVuc INT NOT NULL,
   BienSoXe VARCHAR(20) NOT NULL,
-  LoaiXe VARCHAR(50) NOT NULL,
-  TrangThai VARCHAR(50) NOT NULL,
+  LoaiXe NVARCHAR(50) NOT NULL,
+  TrangThai NVARCHAR(50) NOT NULL,
   FOREIGN KEY (MaKhuVuc) REFERENCES KhuVuc(MaKhuVuc),
   FOREIGN KEY (BienSoXe) REFERENCES Xe(BienSoXe),
   --FOREIGN KEY (LoaiXe) REFERENCES LoaiXe(TenLoaiXe)  -- Assuming TenLoaiXe is the primary key in LoaiXe
@@ -69,15 +69,15 @@ CREATE TABLE ChoDoXe (
 -- Bảng Chức vụ
 CREATE TABLE ChucVu (
   MaChucVu INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenChucVu VARCHAR(50) NOT NULL
+  TenChucVu NVARCHAR(50) NOT NULL
 );
 
 -- Bảng Nhân viên
 CREATE TABLE NhanVien (
   MaNV INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenNV VARCHAR(255) NOT NULL,
+  TenNV NVARCHAR(255) NOT NULL,
   SoDienThoai CHAR(12) NOT NULL,
-  DiaChi VARCHAR(255) NOT NULL,
+  DiaChi NVARCHAR(255) NOT NULL,
   Email VARCHAR(255) UNIQUE,
   MaChucVu INT NOT NULL,
   FOREIGN KEY (MaChucVu) REFERENCES ChucVu(MaChucVu)
@@ -88,18 +88,18 @@ CREATE TABLE NhanVien (
 -- Bảng Quyền hạn
 CREATE TABLE QuyenHan (
   MaQuyenHan INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenQuyenHan VARCHAR(50) NOT NULL
+  TenQuyenHan NVARCHAR(50) NOT NULL
 );
 -- Bảng Loại tài khoản
 CREATE TABLE LoaiTaiKhoan (
   MaLoaiTaiKhoan INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenLoaiTaiKhoan VARCHAR(50) NOT NULL
+  TenLoaiTaiKhoan NVARCHAR(50) NOT NULL
   );
 -- Bảng Tài khoản
 CREATE TABLE TaiKhoan (
   MaTaiKhoan INT PRIMARY KEY IDENTITY(1, 1),  -- Use IDENTITY instead of AUTO_INCREMENT
-  TenDangNhap VARCHAR(50) NOT NULL UNIQUE,
-  MatKhau VARCHAR(255) NOT NULL,
+  TenDangNhap NVARCHAR(50) NOT NULL UNIQUE,
+  MatKhau NVARCHAR(255) NOT NULL,
   MaLoaiTaiKhoan INT NOT NULL,
   MaNV INT,
   FOREIGN KEY (MaLoaiTaiKhoan) REFERENCES LoaiTaiKhoan(MaLoaiTaiKhoan),
@@ -131,60 +131,64 @@ CREATE TABLE GiaoDichThanhToan (
 
 
 INSERT INTO KhachHang (TenKH, SoDienThoai, DiaChi, Email)
-VALUES ('Nguyen Van A', '0123456789', '123 Đường ABC', 'nguyenvana@example.com'),
-       ('Tran Thi B', '0987654321', '456 Đường XYZ', 'tranthib@example.com');
+VALUES (N'Nguyễn Văn A', '0123456789', N'123 Đường ABC', 'nguyenvana@example.com'),
+       (N'Trần Thị B', '0987654321', N'456 Đường XYZ', 'tranthib@example.com');
 
 INSERT INTO MauXe (TenMau)
-VALUES ('Đen'), ('Trắng'), ('Đỏ');
+VALUES (N'Đen'), (N'Trắng'), (N'Đỏ');
 
 INSERT INTO Xe (BienSoXe, MaMauXe, HieuXe, Model, LoaiXe)
-VALUES ('29A-12345', 1, 'Honda', 'City', 'Sedan'),
-       ('51C-98765', 2, 'Toyota', 'Vios', 'Sedan');
+VALUES ('29A-12345', 1, N'Honda', N'City', N'Sedan'),
+       ('51C-98765', 2, N'Toyota', N'Vios', N'Sedan');
 
 INSERT INTO LoaiVe (TenLoaiVe, GiaVe)
-VALUES ('Vé ngày', 50000.00),
-       ('Vé tháng', 1000000.00);
+VALUES (N'Vé ngày', 50000.00),
+       (N'Vé tháng', 1000000.00);
 
 INSERT INTO VeGuiXe (MaLoaiVe, BienSoXe, NgayGui, NgayLay, MaKH)
 VALUES (1, '29A-12345', '2024-05-09 08:00:00', NULL, 1),
        (2, '51C-98765', '2024-05-09 10:00:00', NULL, 2);
 
 INSERT INTO KhuVuc (TenKhuVuc, SucChua)
-VALUES ('Khu vực A', 100),
-       ('Khu vực B', 50);
+VALUES (N'Khu vực A', 100),
+       (N'Khu vực B', 50);
 
 INSERT INTO ChoDoXe (MaKhuVuc, BienSoXe, LoaiXe, TrangThai)
-VALUES (1, '29A-12345', 'Sedan', 'Trống'),
-       (2, '51C-98765', 'Sedan', 'Đã đỗ');
+VALUES (1, '29A-12345', N'Sedan', N'Trống'),
+       (2, '51C-98765', N'Sedan', N'Đã đỗ');
 
 INSERT INTO ChucVu (TenChucVu)
-VALUES ('Nhân viên bán vé'),
-       ('Quản lý'),
-       ('Nhân viên gửi xe');
+VALUES (N'Nhân viên bán vé'),
+       (N'Quản lý'),
+       (N'Nhân viên gửi xe');
 
 INSERT INTO NhanVien (TenNV, SoDienThoai, DiaChi, Email, MaChucVu)
-VALUES ('Nguyen Van C', '0369876543', '789 Đường MNP', 'nguyenvanc@example.com', 1),
-       ('Tran Van D', '0901234567', '246 Đường XYZ', 'tranvand@example.com', 3);
+VALUES (N'Nguyễn Văn C', '0369876543', N'789 Đường MNP', 'nguyenvanc@example.com', 1),
+       (N'Trần Văn D', '0901234567', N'246 Đường XYZ', 'tranvand@example.com', 3);
 
 INSERT INTO QuyenHan (TenQuyenHan)
-VALUES ('Quản lý nhân viên'),
-       ('Quản lý vé gửi xe'),
-       ('Quản lý doanh thu');
+VALUES (N'Quản lý nhân viên'),
+       (N'Quản lý vé gửi xe'),
+       (N'Quản lý doanh thu');
 
 INSERT INTO LoaiTaiKhoan (TenLoaiTaiKhoan)
-VALUES ('Nhân viên'),
-       ('Quản lý');
+VALUES (N'Nhân viên'),
+       (N'Quản lý');
 
-	   INSERT INTO TaiKhoan (TenDangNhap, MatKhau, MaLoaiTaiKhoan, MaNV)
-VALUES ('Admin', '12345', 1, 1),
-       ('NhanVien', '678910', 2, 2);
+INSERT INTO TaiKhoan (TenDangNhap, MatKhau, MaLoaiTaiKhoan, MaNV)
+VALUES (N'Admin', '12345', 1, 1),
+       (N'NhanVien', '678910', 2, 2);
+
 INSERT INTO LichSuGiaoDich (ThoiGianGiaoDich, TongTien, MaVe)
 VALUES ('2024-05-09 08:00:00', 50000.00, 1),
        ('2024-05-09 10:00:00', 1000000.00, 2);
-	   INSERT INTO PhuongTienThanhToan (TenPhuongTien)
-VALUES ('Tiền mặt'),
-       ('Thẻ tín dụng'),
-       ('Chuyển khoản');
-	   INSERT INTO GiaoDichThanhToan (MaGiaoDich, MaPhuongTien, SoTien)
+
+INSERT INTO PhuongTienThanhToan (TenPhuongTien)
+VALUES (N'Tiền mặt'),
+       (N'Thẻ tín dụng'),
+       (N'Chuyển khoản');
+
+INSERT INTO GiaoDichThanhToan (MaGiaoDich, MaPhuongTien, SoTien)
 VALUES (1, 1, 50000.00),
        (2, 2, 1000000.00);
+
