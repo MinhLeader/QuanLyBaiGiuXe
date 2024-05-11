@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using QLBGX.Models;
+using Microsoft.EntityFrameworkCore; // Thêm thư viện này để sử dụng Include
 using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 // Thêm các thư viện cần thiết khác
 
 namespace QLBGX.Controllers
@@ -14,113 +16,71 @@ namespace QLBGX.Controllers
             _context = context;
         }
 
-        // GET: Employee/AddEmployee
-        public IActionResult AddEmployee()
+        public IActionResult Create()
         {
-            // Tạo View Model nếu cần
+            ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu");
             return View();
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("MaNv,TenNv,SoDienThoai,DiaChi,Email,MaChucVu")] NhanVien nhanVien)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(nhanVien);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Employee));
+            }
+            ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu", nhanVien.MaChucVu);
+            return View(nhanVien);
+        }
+        // GET: Employee/AddEmployee
+        //public IActionResult AddEmployee()
+        //{
+        //    // Tạo View Model nếu cần
+        //    //var chucVuList = _context.ChucVus.ToList();
+        //    //if (chucVuList == null || !chucVuList.Any())
+        //    //{
+        //    //    chucVuList = new List<ChucVu>();
+        //    //}
+        //    //ViewBag.ChucVu = _context.ChucVus.ToList(); // Lấy danh sách chức vụ từ database
+        //    //return View();
+        //    // Tải danh sách ChucVu để người dùng có thể chọn
+        //    ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu");
+        //    return View();
+        //}
 
         // POST: Employee/AddEmployee
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult AddEmployee(NhanVien nhanVien)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.NhanViens.Add(nhanVien);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(nhanVien);
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> AddEmployee([Bind("MaNv,TenNv,SoDienThoai,DiaChi,Email,MaChucVu")] NhanVien nhanVien)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Add(nhanVien);
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Employee));
+        //    }
+        //    ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu", nhanVien.MaChucVu);
+        //    return View(nhanVien);
+        //}
+        //public IActionResult AddEmployee(NhanVien nhanVien)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.NhanViens.Add(nhanVien);
+        //        _context.SaveChanges();
+        //        return RedirectToAction(nameof(Employee));
+        //    }
+        //    return View(nhanVien);
+        //}
 
-        // GET: Employee/Edit/5
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhanVien = _context.NhanViens.Find(id);
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
-            return View(nhanVien);
-        }
-
-        // POST: Employee/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, NhanVien nhanVien)
-        {
-            if (id != nhanVien.MaNv)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                _context.Update(nhanVien);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(nhanVien);
-        }
-
-        // GET: Employee/Details/5
-        public IActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhanVien = _context.NhanViens
-                .FirstOrDefault(m => m.MaNv == id);
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
-
-            return View(nhanVien);
-        }
-
-        // GET: Employee/Delete/5
-        public IActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var nhanVien = _context.NhanViens
-                .FirstOrDefault(m => m.MaNv == id);
-            if (nhanVien == null)
-            {
-                return NotFound();
-            }
-
-            return View(nhanVien);
-        }
-
-        // POST: Employee/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            var nhanVien = _context.NhanViens.Find(id);
-            _context.NhanViens.Remove(nhanVien);
-            _context.SaveChanges();
-            return RedirectToAction(nameof(Index));
-        }
 
         // Phương thức hiển thị danh sách nhân viên
         public IActionResult Employee()
         {
-            var employees = _context.NhanViens.ToList(); // Lấy danh sách nhân viên từ database
+            // Sử dụng Include để tải thông tin ChucVu liên quan
+            var employees = _context.NhanViens.Include(nv => nv.MaChucVuNavigation).ToList();
             if (employees == null || !employees.Any())
             {
                 // Xử lý trường hợp không có nhân viên

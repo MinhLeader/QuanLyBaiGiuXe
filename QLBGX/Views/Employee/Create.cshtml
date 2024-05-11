@@ -1,0 +1,43 @@
+﻿@model QLBGX.Models.NhanVien
+
+
+
+<form asp-action="Create">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="TenNv" class="control-label"></label>
+        <input asp-for="TenNv" class="form-control" />
+        <span asp-validation-for="TenNv" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="SoDienThoai" class="control-label"></label>
+        <input asp-for="SoDienThoai" class="form-control" />
+        <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+    </div>
+    <!-- Thêm các input cho các trường còn lại theo cùng cấu trúc -->
+    <div class="form-group">
+        <label asp-for="DiaChi" class="control-label">Địa Chỉ</label>
+        <input asp-for="DiaChi" class="form-control" />
+        <span asp-validation-for="DiaChi" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MaChucVu" class="control-label"></label>
+        <select asp-for="MaChucVu" class="form-control" asp-items="ViewBag.MaChucVu"></select>
+        <span asp-validation-for="MaChucVu" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Thêm" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
