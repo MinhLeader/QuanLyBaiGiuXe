@@ -17,6 +17,25 @@ namespace QLBGX.Controllers
             _context = context;
             
         }
+        // Phương thức GET: Employee/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var nhanVien = await _context.NhanViens
+                .Include(nv => nv.MaChucVuNavigation)
+                .FirstOrDefaultAsync(m => m.MaNv == id);
+
+            if (nhanVien == null)
+            {
+                return NotFound();
+            }
+
+            return View(nhanVien);
+        }
 
         public IActionResult Create()
         {

@@ -1,0 +1,34 @@
+﻿@model QLBGX.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Chi tiết khách hàng";
+}
+
+<div class="container my-5">
+    <div class="card">
+        <div class="card-header">
+            <h1 class="card-title">@ViewData["Title"]</h1>
+        </div>
+        <div class="card-body">
+            <h4 class="text-secondary">Thông tin cơ bản</h4>
+            <dl class="row">
+                <dt class="col-sm-4">Tên khách hàng</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.TenKh)</dd>
+
+                <dt class="col-sm-4">Số điện thoại</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SoDienThoai)</dd>
+
+                <dt class="col-sm-4">Địa chỉ</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.DiaChi)</dd>
+
+                <dt class="col-sm-4">Email</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+                <!-- Thêm các trường thông tin khác của khách hàng tại đây -->
+            </dl>
+        </div>
+        <div class="card-footer text-muted">
+            <a asp-action="EditCustomer" asp-route-id="@Model.MaKh" class="btn btn-primary">Sửa thông tin</a>
+            <a asp-action="ShowCustomer" class="btn btn-secondary ml-2">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>
