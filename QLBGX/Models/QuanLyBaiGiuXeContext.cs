@@ -197,7 +197,14 @@ public partial class QuanLyBaiGiuXeContext : DbContext
                 .HasMaxLength(255)
                 .HasColumnName("TenNV");
 
-            entity.HasOne(d => d.MaChucVuNavigation).WithMany(p => p.NhanViens)
+            //entity.HasOne(d => d.MaChucVuNavigation).WithMany(p => p.NhanViens)
+            //    .HasForeignKey(d => d.MaChucVu)
+            //    .OnDelete(DeleteBehavior.ClientSetNull)
+            //    .HasConstraintName("FK__NhanVien__MaChuc__4F47C5E3");
+
+
+            entity.HasOne(d => d.MaChucVuNavigation)
+                .WithMany(p => p.NhanViens)
                 .HasForeignKey(d => d.MaChucVu)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__NhanVien__MaChuc__4F47C5E3");

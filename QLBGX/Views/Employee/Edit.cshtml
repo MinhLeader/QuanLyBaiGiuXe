@@ -1,0 +1,61 @@
+﻿@model QLBGX.Models.NhanVien
+
+@{
+    ViewData["Title"] = "Sửa thông tin nhân viên";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@Html.AntiForgeryToken()
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="MaNv" />
+
+            <div class="form-group">
+                <label asp-for="TenNv" class="control-label"></label>
+                <input asp-for="TenNv" class="form-control" />
+                <span asp-validation-for="TenNv" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SoDienThoai" class="control-label"></label>
+                <input asp-for="SoDienThoai" class="form-control" />
+                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DiaChi" class="control-label"></label>
+                <input asp-for="DiaChi" class="form-control" />
+                <span asp-validation-for="DiaChi" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="MaChucVu" class="control-label"></label>
+                <select asp-for="MaChucVu" class="form-control" asp-items="ViewBag.MaChucVu">
+                    <option value="">--- Chọn chức vụ ---</option>
+                </select>
+                <span asp-validation-for="MaChucVu" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
