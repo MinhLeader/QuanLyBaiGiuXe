@@ -1,0 +1,132 @@
+﻿@model IEnumerable<QLBGX.ViewModels.ParkingAreaViewModel>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 20px;
+    }
+
+    .area-container {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .area-button {
+        padding: 10px 20px;
+        margin: 0 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .area-button:hover {
+            background-color: #0056b3;
+        }
+
+    .parking-spot {
+        width: 150px;
+        height: 150px;
+        border: 2px solid #ddd;
+        margin: 10px;
+        display: inline-block;
+        vertical-align: top;
+        line-height: 1.5;
+        text-align: left;
+        padding: 10px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        background-color: white;
+        border-radius: 5px;
+        position: relative;
+    }
+
+        .parking-spot span {
+            display: block;
+        }
+
+    .available {
+        border-color: green;
+    }
+
+    .occupied {
+        border-color: red;
+    }
+
+    .repairing {
+        border-color: yellow;
+    }
+
+    .status-indicator {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    .available .status-indicator {
+        background-color: green;
+    }
+
+    .occupied .status-indicator {
+        background-color: red;
+    }
+
+    .repairing .status-indicator {
+        background-color: yellow;
+    }
+
+    .error-message {
+        color: red;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .empty, .repair {
+        font-weight: bold;
+        text-align: center;
+        display: block;
+        width: 100%;
+    }
+</style>
+
+<div class="area-container">
+    @foreach (var area in Model)
+    {
+        <button class="area-button" data-area-id="@area.Area.MaKhuVuc">@area.Area.TenKhuVuc</button>
+    }
+</div>
+
+<div id="parking-spot-container">
+    <!-- Các vị trí đỗ xe sẽ được hiển thị ở đây -->
+</div>
+
+<div id="error-container" class="error-message"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.area-button').click(function () {
+            var areaId = $(this).data('area-id');
+            $('#error-container').empty(); // Xóa thông báo lỗi trước đó
+            $.ajax({
+                url: '@Url.Action("GetParkingSpots", "Parking")',
+                data: { areaId: areaId },
+                type: 'GET',
+                success: function (data) {
+                    $('#parking-spot-container').html(data);
+                },
+                error: function (xhr, status, error) {
+                    // Hiển thị thông báo lỗi
+                    $('#error-container').text("Lỗi khi tải thông tin: " + error);
+                }
+            });
+        });
+    });
+</script>

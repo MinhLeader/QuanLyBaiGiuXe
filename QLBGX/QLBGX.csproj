@@ -7,6 +7,33 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\Font-End\css\bootstrap.css" />
+    <None Include="wwwroot\Font-End\css\font-awesome.min.css" />
+    <None Include="wwwroot\Font-End\css\responsive.css" />
+    <None Include="wwwroot\Font-End\css\style.css" />
+    <None Include="wwwroot\Font-End\css\style.css.map" />
+    <None Include="wwwroot\Font-End\css\style.scss" />
+    <None Include="wwwroot\Font-End\fonts\fontawesome-webfont.ttf" />
+    <None Include="wwwroot\Font-End\fonts\fontawesome-webfont.woff" />
+    <None Include="wwwroot\Font-End\fonts\fontawesome-webfont.woff2" />
+    <None Include="wwwroot\Font-End\images\about-img.jpg" />
+    <None Include="wwwroot\Font-End\images\client-1.png" />
+    <None Include="wwwroot\Font-End\images\client-2.png" />
+    <None Include="wwwroot\Font-End\images\fevicon.png" />
+    <None Include="wwwroot\Font-End\images\next.png" />
+    <None Include="wwwroot\Font-End\images\prev.png" />
+    <None Include="wwwroot\Font-End\images\s1.png" />
+    <None Include="wwwroot\Font-End\images\s2.png" />
+    <None Include="wwwroot\Font-End\images\s3.png" />
+    <None Include="wwwroot\Font-End\images\s4.png" />
+    <None Include="wwwroot\Font-End\images\slider-bg.jpg" />
+    <None Include="wwwroot\Font-End\images\track-bg.jpg" />
+    <None Include="wwwroot\Font-End\js\bootstrap.js" />
+    <None Include="wwwroot\Font-End\js\custom.js" />
+    <None Include="wwwroot\Font-End\js\jquery-3.4.1.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0-preview.3.24172.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.3.24172.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0-preview.3.24172.4">

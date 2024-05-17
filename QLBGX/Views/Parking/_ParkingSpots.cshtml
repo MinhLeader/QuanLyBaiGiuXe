@@ -1,0 +1,41 @@
+﻿@model IEnumerable<QLBGX.ViewModels.ChoDoXeViewModel>
+
+@foreach (var spot in Model)
+{
+    <div class="parking-spot @GetSpotClass(spot)">
+        <span>Vị trí: @spot.ParkingSpot.MaChoDoXe</span>
+        @switch (spot.ParkingSpot.TrangThai)
+        {
+            case "Trống":
+                <span class="status empty">Trống</span>
+                break;
+            case "Sửa chữa":
+                <span class="status repair">Sửa chữa</span>
+                break;
+            default:
+                <div class="vehicle-info">
+                    <span>Biển số xe: @spot.Vehicle.BienSoXe</span>
+                    <span>Loại xe: @spot.Vehicle.LoaiXe</span>
+                    <!-- Thêm các thông tin khác của xe ở đây nếu cần -->
+                </div>
+                break;
+        }
+    </div>
+}
+@functions {
+    private string GetSpotClass(QLBGX.ViewModels.ChoDoXeViewModel spot)
+    {
+        // Sử dụng switch case để xác định trạng thái của chỗ đỗ xe
+        switch (spot.ParkingSpot.TrangThai)
+        {
+            case "Đã đỗ":
+                return "available";
+            case "Sửa chữa":
+                return "occupied";
+            case "Trống":
+                return "repairing";
+            default:
+                return "unknown-status"; // Trạng thái không xác định
+        }
+    }
+}

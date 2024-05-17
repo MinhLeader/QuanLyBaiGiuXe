@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using QLBGX.Models;
+using QLBGX.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +9,8 @@ builder.Services.AddDbContext<QuanLyBaiGiuXeContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DemoConnection")));
 
 builder.Services.AddControllersWithViews();
-
+// ??ng ký IParkingService và ParkingService
+builder.Services.AddScoped<IParkingService, ParkingService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
