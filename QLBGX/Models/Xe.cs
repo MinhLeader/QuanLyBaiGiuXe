@@ -15,6 +15,8 @@ public partial class Xe
 
     public string LoaiXe { get; set; } = null!;
 
+    public string? HinhAnh { get; set; }
+
     public virtual ICollection<ChoDoXe> ChoDoXes { get; set; } = new List<ChoDoXe>();
 
     public virtual MauXe MaMauXeNavigation { get; set; } = null!;

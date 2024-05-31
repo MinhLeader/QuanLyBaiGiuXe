@@ -1,15 +1,18 @@
-﻿namespace QLBGX.ViewModel
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace QLBGX.ViewModel
 {
     // LoginViewModel.cs
-    using System.ComponentModel.DataAnnotations;
 
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Tên đăng nhập không được để trống")]
+        [Required]
+        [Display(Name = "Tên đăng nhập")]
         public string TenDangNhap { get; set; }
 
-        [Required(ErrorMessage = "Mật khẩu không được để trống")]
+        [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Mật khẩu")]
         public string MatKhau { get; set; }
     }
 

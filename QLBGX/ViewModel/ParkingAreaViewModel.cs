@@ -1,5 +1,5 @@
-﻿// ParkingAreaViewModel.cs trong thư mục ViewModels
-using QLBGX.Models;
+﻿using QLBGX.Models;
+using System.Collections.Generic;
 
 namespace QLBGX.ViewModels
 {
@@ -14,5 +14,7 @@ namespace QLBGX.ViewModels
         public ChoDoXe ParkingSpot { get; set; }
         public bool IsOccupied { get; set; }
         public Xe Vehicle { get; set; }
+        public string TrangThai { get; set; } // Thêm thuộc tính này để chứa tên trạng thái
+        public bool IsMatchingSearch { get; set; }
     }
 }

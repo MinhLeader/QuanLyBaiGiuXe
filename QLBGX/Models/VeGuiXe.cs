@@ -17,9 +17,17 @@ public partial class VeGuiXe
 
     public int? MaKh { get; set; }
 
+    public DateTime? NgayHetHan { get; set; }
+
+    public int? SoGio { get; set; }
+
+    public int? MaChoDoXe { get; set; }
+
     public virtual Xe BienSoXeNavigation { get; set; } = null!;
 
     public virtual ICollection<LichSuGiaoDich> LichSuGiaoDiches { get; set; } = new List<LichSuGiaoDich>();
+
+    public virtual ChoDoXe? MaChoDoXeNavigation { get; set; }
 
     public virtual KhachHang? MaKhNavigation { get; set; }
 

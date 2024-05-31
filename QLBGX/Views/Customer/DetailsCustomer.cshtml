@@ -25,6 +25,17 @@
                 <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
                 <!-- Thêm các trường thông tin khác của khách hàng tại đây -->
             </dl>
+            <h4 class="text-secondary">Thông tin tài khoản</h4>
+            <dl class="row">
+                @foreach (var tk in Model.TaiKhoans)
+                {
+                    <dt class="col-sm-4">Tên đăng nhập</dt>
+                    <dd class="col-sm-8">@tk.TenDangNhap</dd>
+
+                    <dt class="col-sm-4">Mật khẩu</dt>
+                    <dd class="col-sm-8">@tk.MatKhau</dd>
+                }
+            </dl>
         </div>
         <div class="card-footer text-muted">
             <a asp-action="EditCustomer" asp-route-id="@Model.MaKh" class="btn btn-primary">Sửa thông tin</a>

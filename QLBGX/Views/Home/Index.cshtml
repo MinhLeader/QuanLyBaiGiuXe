@@ -1,5 +1,7 @@
 ﻿@{
     Layout = null;
+    var isAuthenticated = User.Identity.IsAuthenticated;
+    var userName = isAuthenticated ? User.Identity.Name : "Guest";
 }
 <!DOCTYPE html>
 <html>
@@ -17,7 +19,6 @@
     <link rel="shortcut icon" href="~/Font-End/images/fevicon.png" type="">
 
     <title> MQ Parking </title>
-
 
     <!-- bootstrap core css -->
     <link rel="stylesheet" type="text/css" href="~/Font-End/css/bootstrap.css" />
@@ -40,26 +41,25 @@
 
 <body>
 
-
     <div class="hero_area">
-        <!-- header section strats -->
+        <!-- header section starts -->
         <header class="header_section">
             <div class="header_top">
                 <div class="container-fluid ">
                     <div class="contact_nav">
-                        <a href="">
+                        <a href="tel:0344427010">
                             <i class="fa fa-phone" aria-hidden="true"></i>
                             <span>
                                 Call : 0344427010
                             </span>
                         </a>
-                        <a href="">
+                        <a href="mailto:minhle.28062003@gmail.com">
                             <i class="fa fa-envelope" aria-hidden="true"></i>
                             <span>
                                 Email : minhle.28062003@gmail.com
                             </span>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-map-marker" aria-hidden="true"></i>
                             <span>
                                 Location
@@ -71,7 +71,7 @@
             <div class="header_bottom">
                 <div class="container-fluid">
                     <nav class="navbar navbar-expand-lg custom_nav-container ">
-                        <a class="navbar-brand" href=@Url.Action("Index", "Home")>
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
                             <span>
                                 MQ Parking
                             </span>
@@ -82,33 +82,42 @@
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav  ">
+                            <ul class="navbar-nav ml-auto">
                                 <li class="nav-item active">
                                     @Html.ActionLink("Trang chủ", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
-
                                 </li>
                                 <li class="nav-item">
                                     @Html.ActionLink("Đặt vé", "Booking", "Home", new { area = "" }, new { @class = "nav-link" })
-
                                 </li>
                                 <li class="nav-item">
                                     @Html.ActionLink("Giới thiệu", "About", "Home", new { area = "" }, new { @class = "nav-link" })
-
                                 </li>
                                 <li class="nav-item ">
                                     @Html.ActionLink("Liên hệ", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                                @if (isAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <span class="nav-link">@userName</span>
+                                    </li>
 
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#"> <i class="fa fa-user" aria-hidden="true"></i> Đăng nhập</a>
-                                </li>
-                                <form class="form-inline">
-                                    <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                                        <i class="fa fa-search" aria-hidden="true"></i>
-                                    </button>
-                                </form>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                                    </li>
+                                   
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        @Html.ActionLink("Đăng nhập", "Login", "Account", new { area = "" }, new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item">
+                                        @Html.ActionLink("Đăng ký", "Register", "Account", new { area = "" }, new { @class = "nav-link" })
+                                    </li>
+                                }
                             </ul>
                         </div>
+
                     </nav>
                 </div>
             </div>
@@ -131,7 +140,6 @@
                                             Dịch vụ gửi xe tốt nhất
                                         </h1>
                                         <p>
-
                                             Hệ thống bãi giữ xe của chúng tôi được thiết kế để đảm bảo sự an toàn và tiện ích cho khách hàng. Với đội ngũ nhân viên chuyên nghiệp và kinh nghiệm, chúng tôi tập trung vào việc cung cấp một không gian lưu trữ xe an toàn và tiện lợi. Quý khách có thể hoàn toàn yên tâm khi sử dụng dịch vụ của chúng tôi, với sự đảm bảo về tính bảo mật và chất lượng. Chúng tôi luôn lắng nghe và cải tiến để đáp ứng mọi nhu cầu của khách hàng, để mang lại trải nghiệm tốt nhất cho mọi người.
                                         </p>
                                         @*<div class="btn-box">
@@ -155,7 +163,6 @@
                                         </h1>
                                         <p>
                                             Hệ thống bãi giữ xe của chúng tôi được thiết kế để đảm bảo sự an toàn và tiện ích cho khách hàng. Với đội ngũ nhân viên chuyên nghiệp và kinh nghiệm, chúng tôi tập trung vào việc cung cấp một không gian lưu trữ xe an toàn và tiện lợi. Quý khách có thể hoàn toàn yên tâm khi sử dụng dịch vụ của chúng tôi, với sự đảm bảo về tính bảo mật và chất lượng. Chúng tôi luôn lắng nghe và cải tiến để đáp ứng mọi nhu cầu của khách hàng, để mang lại trải nghiệm tốt nhất cho mọi người.
-
                                         </p>
                                         @*<div class="btn-box">
                                         <a href="" class="btn1">
@@ -178,7 +185,6 @@
                                         </h1>
                                         <p>
                                             Hệ thống bãi giữ xe của chúng tôi được thiết kế để đảm bảo sự an toàn và tiện ích cho khách hàng. Với đội ngũ nhân viên chuyên nghiệp và kinh nghiệm, chúng tôi tập trung vào việc cung cấp một không gian lưu trữ xe an toàn và tiện lợi. Quý khách có thể hoàn toàn yên tâm khi sử dụng dịch vụ của chúng tôi, với sự đảm bảo về tính bảo mật và chất lượng. Chúng tôi luôn lắng nghe và cải tiến để đáp ứng mọi nhu cầu của khách hàng, để mang lại trải nghiệm tốt nhất cho mọi người.
-
                                         </p>
                                         @*<div class="btn-box">
                                         <a href="" class="btn1">
@@ -202,9 +208,6 @@
         <!-- end slider section -->
     </div>
 
-
-
-
     <section class="info_section layout_padding2">
         <div class="container">
             <div class="row">
@@ -214,19 +217,19 @@
                             Address
                         </h4>
                         <div class="contact_link_box">
-                            <a href="">
+                            <a href="#">
                                 <i class="fa fa-map-marker" aria-hidden="true"></i>
                                 <span>
                                     Location
                                 </span>
                             </a>
-                            <a href="">
+                            <a href="tel:0344427010">
                                 <i class="fa fa-phone" aria-hidden="true"></i>
                                 <span>
                                     Call 0344427010
                                 </span>
                             </a>
-                            <a href="">
+                            <a href="mailto:minhle.28062003@gmail.com">
                                 <i class="fa fa-envelope" aria-hidden="true"></i>
                                 <span>
                                     minhle.28062003@gmail.com
@@ -235,16 +238,16 @@
                         </div>
                     </div>
                     <div class="info_social">
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-facebook" aria-hidden="true"></i>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-twitter" aria-hidden="true"></i>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-linkedin" aria-hidden="true"></i>
                         </a>
-                        <a href="">
+                        <a href="#">
                             <i class="fa fa-instagram" aria-hidden="true"></i>
                         </a>
                     </div>
@@ -298,7 +301,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- jQery -->
     <script type="text/javascript" src="~/Font-End/js/jquery-3.4.1.min.js"></script>

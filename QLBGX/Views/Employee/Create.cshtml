@@ -1,4 +1,4 @@
-﻿@model QLBGX.Models.NhanVien
+﻿@model QLBGX.Models.NhanVienViewModel
 
 @{
     ViewData["Title"] = "Thêm Nhân Viên Mới";
@@ -39,6 +39,18 @@
                 <option value="">-- Chọn chức vụ --</option>
             </select>
             <span asp-validation-for="MaChucVu" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="TenDangNhap" class="control-label">Tên Đăng Nhập</label>
+            <input asp-for="TenDangNhap" class="form-control" placeholder="Nhập tên đăng nhập" />
+            <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MatKhau" class="control-label">Mật Khẩu</label>
+            <input asp-for="MatKhau" type="password" class="form-control" placeholder="Nhập mật khẩu" />
+            <span asp-validation-for="MatKhau" class="text-danger"></span>
         </div>
 
         <div class="form-group">

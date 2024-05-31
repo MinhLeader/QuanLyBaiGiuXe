@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace QLBGX.Models;
 
-public partial class KhuVuc
+public partial class TrangThaiChoDoXe
 {
-    public int MaKhuVuc { get; set; }
+    public int MaTrangThai { get; set; }
 
-    public string TenKhuVuc { get; set; } = null!;
+    public string TenTrangThai { get; set; } = null!;
 
     public virtual ICollection<ChoDoXe> ChoDoXes { get; set; } = new List<ChoDoXe>();
 }

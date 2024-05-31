@@ -26,6 +26,14 @@
 
             <dt class="col-sm-4">Chức vụ:</dt>
             <dd class="col-sm-8">@Model.MaChucVuNavigation?.TenChucVu</dd>
+
+            <dt class="col-sm-4">Tài khoản:</dt>
+            <dd class="col-sm-8">
+                @foreach (var taiKhoan in Model.TaiKhoans)
+                {
+                    <p>Tên đăng nhập: @Html.DisplayFor(model => taiKhoan.TenDangNhap)</p>
+                }
+            </dd>
         </dl>
 
         <form asp-action="Delete" method="post">

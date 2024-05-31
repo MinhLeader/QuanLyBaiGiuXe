@@ -1,100 +1,56 @@
 ﻿@model IEnumerable<QLBGX.ViewModels.ParkingAreaViewModel>
 
 <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 20px;
-    }
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
 
-    .area-container {
-        text-align: center;
-        margin-bottom: 30px;
-    }
+.area-container {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 20px; /* Thêm padding */
+}
 
-    .area-button {
-        padding: 10px 20px;
-        margin: 0 10px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-        transition: background-color 0.3s ease;
-    }
+.area-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Thay đổi để áp dụng cho tất cả các thuộc tính */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Thêm shadow */
+}
 
-        .area-button:hover {
-            background-color: #0056b3;
-        }
+.area-button:hover {
+    background-color: #0056b3;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Shadow nổi bật hơn */
+}
 
-    .parking-spot {
-        width: 150px;
-        height: 150px;
-        border: 2px solid #ddd;
-        margin: 10px;
-        display: inline-block;
-        vertical-align: top;
-        line-height: 1.5;
-        text-align: left;
-        padding: 10px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        background-color: white;
-        border-radius: 5px;
-        position: relative;
-    }
 
-        .parking-spot span {
-            display: block;
-        }
 
-    .available {
-        border-color: green;
-    }
+/* Các lớp trạng thái và chỉ báo trạng thái giữ nguyên */
 
-    .occupied {
-        border-color: red;
-    }
-
-    .repairing {
-        border-color: yellow;
-    }
-
-    .status-indicator {
-        width: 15px;
-        height: 15px;
-        border-radius: 50%;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-    }
-
-    .available .status-indicator {
-        background-color: green;
-    }
-
-    .occupied .status-indicator {
-        background-color: red;
-    }
-
-    .repairing .status-indicator {
-        background-color: yellow;
-    }
-
-    .error-message {
-        color: red;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .empty, .repair {
-        font-weight: bold;
-        text-align: center;
-        display: block;
-        width: 100%;
-    }
+.error-message {
+    color: red;
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold; /* Làm nổi bật thông báo lỗi */
+    background-color: #f8d7da; /* Thêm màu nền */
+    padding: 10px; /* Thêm padding */
+    border-radius: 5px; /* Bo tròn góc */
+}
 </style>
+
+<div class="search-container">
+    <input type="text" id="searchInput" placeholder="Tìm kiếm theo số chỗ, biển số, khu vực...">
+    <button id="searchButton">Tìm kiếm</button>
+</div>
 
 <div class="area-container">
     @foreach (var area in Model)
@@ -112,6 +68,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
+        // Khi một nút khu vực được nhấp, tải các chỗ đỗ xe tương ứng
         $('.area-button').click(function () {
             var areaId = $(this).data('area-id');
             $('#error-container').empty(); // Xóa thông báo lỗi trước đó
@@ -128,5 +85,57 @@
                 }
             });
         });
+
+        // Hàm để hiển thị chi tiết chỗ đỗ xe
+        window.showParkingSpotDetails = function (parkingSpotId) {
+            $.ajax({
+                url: '@Url.Action("GetParkingSpotDetails", "Parking")',
+                data: { id: parkingSpotId },
+                type: 'GET',
+                success: function (data) {
+                    // Hiển thị thông tin trong một modal
+                    $('#parking-spot-details-container').html(data);
+                    $('#parking-spot-details-modal').modal('show');
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error fetching details: " + error);
+                }
+            });
+        };
+        // tim kim xe
+        $('#searchButton').click(function () {
+            var searchTerm = $('#searchInput').val().toLowerCase();
+
+            // Reset tất cả các ô về trạng thái ban đầu
+            $('.parking-space').removeClass('matching-search');
+
+            if (searchTerm !== '') { // Chỉ tìm kiếm nếu có từ khóa
+                $('.parking-space').each(function () {
+                    var spotNumber = $(this).find('.number').text().toLowerCase();
+                    var spotStatus = $(this).find('.status').text().toLowerCase();
+                    if (spotNumber.includes(searchTerm) || spotStatus.includes(searchTerm)) {
+                        $(this).addClass('matching-search'); // Thêm class matching-search
+                    }
+                });
+            }
+        });
     });
 </script>
+
+
+<!-- Modal structure for parking spot details -->
+<div class="modal fade" id="parking-spot-details-modal" tabindex="-1" role="dialog" aria-labelledby="parkingSpotDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="parkingSpotDetailsModalLabel">Chi tiết chỗ đỗ xe</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="parking-spot-details-container">
+                <!-- Nội dung chi tiết sẽ được load vào đây -->
+            </div>
+        </div>
+    </div>
+</div>

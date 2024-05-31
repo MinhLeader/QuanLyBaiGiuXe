@@ -15,5 +15,7 @@ public partial class KhachHang
 
     public string? Email { get; set; }
 
+    public virtual ICollection<TaiKhoan> TaiKhoans { get; set; } = new List<TaiKhoan>();
+
     public virtual ICollection<VeGuiXe> VeGuiXes { get; set; } = new List<VeGuiXe>();
 }

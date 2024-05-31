@@ -1,4 +1,4 @@
-﻿@model QLBGX.Models.KhachHang
+﻿@model QLBGX.ViewModel.CreateCustomerViewModel
 
 <div class="container mt-5">
     <h2>Thêm Khách Hàng Mới</h2>
@@ -28,6 +28,26 @@
             <input asp-for="Email" class="form-control" placeholder="Nhập email" />
             <span asp-validation-for="Email" class="text-danger"></span>
         </div>
+
+        <div class="form-group">
+            <label asp-for="TenDangNhap" class="control-label">Tên Đăng Nhập</label>
+            <input asp-for="TenDangNhap" class="form-control" />
+            <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MatKhau" class="control-label">Mật Khẩu</label>
+            <input asp-for="MatKhau" class="form-control" type="password" />
+            <span asp-validation-for="MatKhau" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="MaLoaiTaiKhoan" class="control-label">Loại Tài Khoản</label>
+            <select asp-for="MaLoaiTaiKhoan" asp-items="ViewBag.LoaiTaiKhoan" class="form-control"></select>
+            <span asp-validation-for="MaLoaiTaiKhoan" class="text-danger"></span>
+        </div>
+
+        
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Thêm Khách Hàng</button>

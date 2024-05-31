@@ -23,6 +23,15 @@
 
                 <dt class="col-sm-5">Chức vụ:</dt>
                 <dd class="col-sm-7">@Html.DisplayFor(model => model.MaChucVuNavigation.TenChucVu)</dd>
+
+                <dt class="col-sm-5">Tài khoản:</dt>
+                <dd class="col-sm-7">
+                    @foreach (var taiKhoan in Model.TaiKhoans)
+                    {
+                        <p>Tên đăng nhập: @Html.DisplayFor(model => taiKhoan.TenDangNhap)</p>
+                        <p>Mật khẩu: @Html.DisplayFor(model => taiKhoan.MatKhau)</p>
+                    }
+                </dd>
             </dl>
         </div>
         <div class="card-footer text-right">

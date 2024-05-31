@@ -1,0 +1,20 @@
+﻿@model QLBGX.ViewModel.XacNhanDatVeViewModel
+<h2>Xác nhận đặt vé</h2>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6">
+            <p><strong>Mã vé:</strong> @Model.VeGuiXe.MaVe</p>
+            <p><strong>Tên khách hàng:</strong> @Model.VeGuiXe.MaKhNavigation?.TenKh</p>
+            <p><strong>Biển số xe:</strong> @Model.VeGuiXe.BienSoXe</p>
+            <p><strong>Loại vé:</strong> @Model.VeGuiXe.MaLoaiVeNavigation.TenLoaiVe</p>
+            <p><strong>Ngày gửi:</strong> @Model.VeGuiXe.NgayGui.ToString("dd/MM/yyyy HH:mm")</p>
+            @if (Model.VeGuiXe.NgayHetHan.HasValue)
+            {
+                <p><strong>Ngày hết hạn:</strong> @Model.VeGuiXe.NgayHetHan.Value.ToString("dd/MM/yyyy HH:mm")</p>
+            }
+            <p><strong>Khu vực:</strong> @Model.ChoDoXe.MaKhuVucNavigation.TenKhuVuc</p>
+            <p><strong>Chỗ đỗ:</strong> @Model.ChoDoXe.SoCho</p>
+            <p><strong>Giá vé:</strong> @Model.VeGuiXe.GiaVe.ToString("C")</p>
+        </div>
+    </div>
+</div>

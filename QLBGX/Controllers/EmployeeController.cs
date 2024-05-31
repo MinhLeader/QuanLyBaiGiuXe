@@ -27,6 +27,7 @@ namespace QLBGX.Controllers
 
             var nhanVien = await _context.NhanViens
                 .Include(nv => nv.MaChucVuNavigation)
+                .Include(nv => nv.TaiKhoans)
                 .FirstOrDefaultAsync(m => m.MaNv == id);
 
             if (nhanVien == null)
@@ -37,6 +38,7 @@ namespace QLBGX.Controllers
             return View(nhanVien);
         }
 
+
         public IActionResult Create()
         {
             ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu");
@@ -44,41 +46,40 @@ namespace QLBGX.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        
-        public async Task<IActionResult> Create([Bind("MaNv,TenNv,SoDienThoai,DiaChi,Email,MaChucVu")] NhanVien nhanVien )
+        public async Task<IActionResult> Create([Bind("MaNv,TenNv,SoDienThoai,DiaChi,Email,MaChucVu,TenDangNhap,MatKhau")] NhanVienViewModel model)
         {
-            // Retrieve the ChucVu entity based on the selected MaChucVu
-
-            var selectedChucVu = _context.ChucVus.Find(nhanVien.MaChucVu);
-
-            if (selectedChucVu != null)
-            {
-                nhanVien.MaChucVuNavigation = selectedChucVu;
-            }
-            ModelState.Clear();
-
             if (ModelState.IsValid)
             {
-                _context.Add(nhanVien);
+                var nhanVien = new NhanVien
+                {
+                    TenNv = model.TenNv,
+                    SoDienThoai = model.SoDienThoai,
+                    DiaChi = model.DiaChi,
+                    Email = model.Email,
+                    MaChucVu = model.MaChucVu
+                };
+
+                // Thêm nhân viên vào cơ sở dữ liệu
+                _context.NhanViens.Add(nhanVien);
                 await _context.SaveChangesAsync();
+
+                // Tạo tài khoản cho nhân viên
+                var taiKhoan = new TaiKhoan
+                {
+                    TenDangNhap = model.TenDangNhap,
+                    MatKhau = model.MatKhau,
+                    MaLoaiTaiKhoan = 2, // Giả sử 2 là loại tài khoản nhân viên
+                    MaNv = nhanVien.MaNv
+                };
+
+                _context.TaiKhoans.Add(taiKhoan);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Employee));
             }
-            else
-            {
-                // Prepare a general error message
-                var errorMessage = "Lỗi khi thêm nhân viên. Vui lòng kiểm tra lại thông tin.";
 
-                // Option 1: Pass error message directly to ViewData (simpler approach)
-                ViewData["ErrorMessage"] = errorMessage;
-            }
-
-            if (TempData["PreviousPage"] != null)
-            {
-                return Redirect(TempData["PreviousPage"].ToString());
-            }
-
-            ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu", nhanVien.MaChucVu);
-            return View(nhanVien);
+            ViewData["MaChucVu"] = new SelectList(_context.ChucVus, "MaChucVu", "TenChucVu", model.MaChucVu);
+            return View(model);
         }
 
         // GET: Employee/Delete/5
@@ -92,6 +93,7 @@ namespace QLBGX.Controllers
             // Lấy nhân viên với ChucVu liên quan để hiển thị chi tiết
             var nhanVien = await _context.NhanViens
                 .Include(nv => nv.MaChucVuNavigation)
+                .Include(nv => nv.TaiKhoans)
                 .FirstOrDefaultAsync(m => m.MaNv == id);
 
             if (nhanVien == null)
@@ -126,7 +128,8 @@ namespace QLBGX.Controllers
 
             return RedirectToAction(nameof(Employee));
         }
-      
+
+
         public async Task<IActionResult> Edit(int? id) 
     { 
         if (id == null) 
