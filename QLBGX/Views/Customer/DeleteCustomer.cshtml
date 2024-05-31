@@ -1,0 +1,33 @@
+﻿@model QLBGX.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Xóa Khách Hàng";
+}
+
+<div class="container mt-5">
+    <h2 class="text-danger">@ViewData["Title"]</h2>
+
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Cảnh báo!</h4>
+        <p>Bạn có chắc chắn muốn xóa khách hàng sau không?</p>
+        <hr>
+        <p class="mb-0"><strong>Tên khách hàng:</strong> @Model.TenKh</p>
+    </div>
+
+    <dl class="row">
+        <dt class="col-sm-4">Số điện thoại</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.SoDienThoai)</dd>
+
+        <dt class="col-sm-4">Địa chỉ</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.DiaChi)</dd>
+
+        <dt class="col-sm-4">Email</dt>
+        <dd class="col-sm-8">@Html.DisplayFor(model => model.Email)</dd>
+    </dl>
+
+    <form asp-action="DeleteCustomer" method="post">
+        <input type="hidden" asp-for="MaKh" />
+        <button type="submit" class="btn btn-danger">Xác nhận xóa</button>
+        <a asp-action="ShowCustomer" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>

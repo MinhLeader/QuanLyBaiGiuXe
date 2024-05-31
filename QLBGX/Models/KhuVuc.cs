@@ -9,7 +9,5 @@ public partial class KhuVuc
 
     public string TenKhuVuc { get; set; } = null!;
 
-    public int SucChua { get; set; }
-
     public virtual ICollection<ChoDoXe> ChoDoXes { get; set; } = new List<ChoDoXe>();
 }

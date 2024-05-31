@@ -1,0 +1,64 @@
+﻿@model IEnumerable<QLBGX.Models.KhachHang>
+
+@{
+    ViewData["Title"] = "Quản lý khách hàng";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div class="my-4">
+    <a asp-action="CreateCustomer" class="btn btn-success">Thêm Khách Hàng Mới</a>
+</div>
+
+<!-- Bảng danh sách khách hàng -->
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Mã KH</th>
+            <th>Tên KH</th>
+            <th>Số Điện Thoại</th>
+            <th>Địa Chỉ</th>
+            <th>Email</th>
+            
+            <th>Hành Động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var kh in Model)
+            {
+                <tr>
+                    <td>@kh.MaKh</td>
+                    <td>@kh.TenKh</td>
+                    <td>@kh.SoDienThoai</td>
+                    <td>@kh.DiaChi</td>
+                    <td>@kh.Email</td>
+                   
+                    <td>
+                        <a asp-action="EditCustomer" asp-route-id="@kh.MaKh" class="btn btn-primary">Sửa</a>
+                        <a asp-action="DetailsCustomer" asp-route-id="@kh.MaKh" class="btn btn-secondary">Chi tiết</a>
+                        <a asp-action="DeleteCustomer" asp-route-id="@kh.MaKh" class="btn btn-danger">Xóa</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7">Không có dữ liệu khách hàng.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Khởi tạo DataTables
+            // Chú ý là bạn cần có thư viện jQuery và DataTables đã được include trong project của bạn
+            $('#example').DataTable();
+        });
+    </script>
+}
+

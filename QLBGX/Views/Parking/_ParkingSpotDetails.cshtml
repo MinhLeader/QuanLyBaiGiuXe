@@ -1,0 +1,23 @@
+﻿@model QLBGX.ViewModels.ParkingSpotDetailsViewModel
+
+<div>
+    <h3>Chi tiết chỗ đỗ xe: @Model.ParkingSpot.SoCho</h3>
+    <p>Khu vực: @Model.ParkingSpot.MaKhuVucNavigation.TenKhuVuc</p>
+   @*  <p>Số chỗ: @Model.ParkingSpot.SoCho</p> *@
+    <p>Trạng thái: @Model.ParkingSpot.MaTrangThaiNavigation.TenTrangThai</p>
+    @if (!string.IsNullOrEmpty(Model.ParkingSpot.BienSoXe))
+    {
+        <p>Biển số xe: @Model.ParkingSpot.BienSoXe</p>
+        <p>Hiệu xe: @Model.ParkingSpot.BienSoXeNavigation.HieuXe</p>
+        <p>Model: @Model.ParkingSpot.BienSoXeNavigation.Model</p>
+        <p>Loại xe: @Model.ParkingSpot.BienSoXeNavigation.LoaiXe</p>
+        @if (!string.IsNullOrEmpty(Model.VehicleImage))
+        {
+            <img src="@Url.Content($"~/assets/img/{Model.VehicleImage}")" alt="Hình ảnh xe" style="max-width: 100%; height: auto;" />
+        }
+    }
+    else
+    {
+        <p>Không có xe đậu tại chỗ này.</p>
+    }
+</div>

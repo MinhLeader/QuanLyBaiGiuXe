@@ -9,13 +9,17 @@ public partial class ChoDoXe
 
     public int MaKhuVuc { get; set; }
 
-    public string BienSoXe { get; set; } = null!;
+    public int SoCho { get; set; }
 
-    public string LoaiXe { get; set; } = null!;
+    public string? BienSoXe { get; set; }
 
-    public string TrangThai { get; set; } = null!;
+    public int MaTrangThai { get; set; }
 
-    public virtual Xe BienSoXeNavigation { get; set; } = null!;
+    public virtual Xe? BienSoXeNavigation { get; set; }
 
     public virtual KhuVuc MaKhuVucNavigation { get; set; } = null!;
+
+    public virtual TrangThaiChoDoXe MaTrangThaiNavigation { get; set; } = null!;
+
+    public virtual ICollection<VeGuiXe> VeGuiXes { get; set; } = new List<VeGuiXe>();
 }

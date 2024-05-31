@@ -1,295 +1,324 @@
-﻿
+﻿@{
+    Layout = null;
+    var isAuthenticated = User.Identity.IsAuthenticated;
+    var userName = isAuthenticated ? User.Identity.Name : "Guest";
+}
+<!DOCTYPE html>
+<html>
 
+<head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="~/Font-End/images/fevicon.png" type="">
 
+    <title> MQ Parking </title>
 
-        <section class="section dashboard">
-            <div class="row">
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="~/Font-End/css/bootstrap.css" />
 
-                <!-- Left side columns -->
-                <div class="col-lg-8">
-                    <div class="row">
+    <!-- fonts style -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap" rel="stylesheet">
 
-                        <!-- Sales Card -->
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card sales-card">
+    <!--owl slider stylesheet -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
 
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
+    <!-- font awesome style -->
+    <link href="~/Font-End/css/font-awesome.min.css" rel="stylesheet" />
 
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
+    <!-- Custom styles for this template -->
+    <link href="~/Font-End/css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="~/Font-End/css/responsive.css" rel="stylesheet" />
 
-                                <div class="card-body">
-                                    <h5 class="card-title">Sales <span>| Today</span></h5>
+</head>
 
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-cart"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>145</h6>
-                                            <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+<body>
 
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div><!-- End Sales Card -->
-                        <!-- Revenue Card -->
-                        <div class="col-xxl-4 col-md-6">
-                            <div class="card info-card revenue-card">
-
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Revenue <span>| This Month</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-currency-dollar"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>$3,264</h6>
-                                            <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div><!-- End Revenue Card -->
-                        <!-- Customers Card -->
-                        <div class="col-xxl-4 col-xl-12">
-
-                            <div class="card info-card customers-card">
-
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Customers <span>| This Year</span></h5>
-
-                                    <div class="d-flex align-items-center">
-                                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                            <i class="bi bi-people"></i>
-                                        </div>
-                                        <div class="ps-3">
-                                            <h6>1244</h6>
-                                            <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-
-                        </div><!-- End Customers Card -->
-                        <!-- Reports -->
-                        <div class="col-12">
-                            <div class="card">
-
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
-                                <div class="card-body">
-                                    <h5 class="card-title">Reports <span>/Today</span></h5>
-
-                                    <!-- Line Chart -->
-                                    <div id="reportsChart"></div>
-
-                                    <script>
-                                        document.addEventListener("DOMContentLoaded", () => {
-                                            new ApexCharts(document.querySelector("#reportsChart"), {
-                                                series: [{
-                                                    name: 'Sales',
-                                                    data: [31, 40, 28, 51, 42, 82, 56],
-                                                }, {
-                                                    name: 'Revenue',
-                                                    data: [11, 32, 45, 32, 34, 52, 41]
-                                                }, {
-                                                    name: 'Customers',
-                                                    data: [15, 11, 32, 18, 9, 24, 11]
-                                                }],
-                                                chart: {
-                                                    height: 350,
-                                                    type: 'area',
-                                                    toolbar: {
-                                                        show: false
-                                                    },
-                                                },
-                                                markers: {
-                                                    size: 4
-                                                },
-                                                colors: ['#4154f1', '#2eca6a', '#ff771d'],
-                                                fill: {
-                                                    type: "gradient",
-                                                    gradient: {
-                                                        shadeIntensity: 1,
-                                                        opacityFrom: 0.3,
-                                                        opacityTo: 0.4,
-                                                        stops: [0, 90, 100]
-                                                    }
-                                                },
-                                                dataLabels: {
-                                                    enabled: false
-                                                },
-                                                stroke: {
-                                                    curve: 'smooth',
-                                                    width: 2
-                                                },
-                                                xaxis: {
-                                                    type: 'datetime',
-                                                    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z", "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z", "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z", "2018-09-19T06:30:00.000Z"]
-                                                },
-                                                tooltip: {
-                                                    x: {
-                                                        format: 'dd/MM/yy HH:mm'
-                                                    },
-                                                }
-                                            }).render();
-                                        });
-                                    </script>
-                                    <!-- End Line Chart -->
-
-                                </div>
-
-                            </div>
-                        </div><!-- End Reports -->
-
-
-
-
-
+    <div class="hero_area">
+        <!-- header section starts -->
+        <header class="header_section">
+            <div class="header_top">
+                <div class="container-fluid ">
+                    <div class="contact_nav">
+                        <a href="tel:0344427010">
+                            <i class="fa fa-phone" aria-hidden="true"></i>
+                            <span>
+                                Call : 0344427010
+                            </span>
+                        </a>
+                        <a href="mailto:minhle.28062003@gmail.com">
+                            <i class="fa fa-envelope" aria-hidden="true"></i>
+                            <span>
+                                Email : minhle.28062003@gmail.com
+                            </span>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <span>
+                                Location
+                            </span>
+                        </a>
                     </div>
-                </div><!-- End Left side columns -->
-                <!-- Right side columns -->
-                <div class="col-lg-4">
+                </div>
+            </div>
+            <div class="header_bottom">
+                <div class="container-fluid">
+                    <nav class="navbar navbar-expand-lg custom_nav-container ">
+                        <a class="navbar-brand" href="@Url.Action("Index", "Home")">
+                            <span>
+                                MQ Parking
+                            </span>
+                        </a>
 
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class=""> </span>
+                        </button>
 
-
-                    <!-- Budget Report -->
-                    <div class="card">
-                        <div class="filter">
-                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                <li class="dropdown-header text-start">
-                                    <h6>Filter</h6>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ml-auto">
+                                <li class="nav-item active">
+                                    @Html.ActionLink("Trang chủ", "Index", "Home", new { area = "" }, new { @class = "nav-link" })
                                 </li>
+                                <li class="nav-item">
+                                    @Html.ActionLink("Đặt vé", "Booking", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                                <li class="nav-item">
+                                    @Html.ActionLink("Giới thiệu", "About", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                                <li class="nav-item ">
+                                    @Html.ActionLink("Liên hệ", "Contact", "Home", new { area = "" }, new { @class = "nav-link" })
+                                </li>
+                                @if (isAuthenticated)
+                                {
+                                    <li class="nav-item">
+                                        <span class="nav-link">@userName</span>
+                                    </li>
 
-                                <li><a class="dropdown-item" href="#">Today</a></li>
-                                <li><a class="dropdown-item" href="#">This Month</a></li>
-                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="@Url.Action("Logout", "Account")">Đăng xuất</a>
+                                    </li>
+                                   
+                                }
+                                else
+                                {
+                                    <li class="nav-item">
+                                        @Html.ActionLink("Đăng nhập", "Login", "Account", new { area = "" }, new { @class = "nav-link" })
+                                    </li>
+                                    <li class="nav-item">
+                                        @Html.ActionLink("Đăng ký", "Register", "Account", new { area = "" }, new { @class = "nav-link" })
+                                    </li>
+                                }
                             </ul>
                         </div>
 
-                        <div class="card-body pb-0">
-                            <h5 class="card-title">Budget Report <span>| This Month</span></h5>
-
-                            <div id="budgetChart" style="min-height: 400px;" class="echart"></div>
-
-                            <script>
-                                document.addEventListener("DOMContentLoaded", () => {
-                                    var budgetChart = echarts.init(document.querySelector("#budgetChart")).setOption({
-                                        legend: {
-                                            data: ['Allocated Budget', 'Actual Spending']
-                                        },
-                                        radar: {
-                                            // shape: 'circle',
-                                            indicator: [{
-                                                name: 'Sales',
-                                                max: 6500
-                                            },
-                                            {
-                                                name: 'Administration',
-                                                max: 16000
-                                            },
-                                            {
-                                                name: 'Information Technology',
-                                                max: 30000
-                                            },
-                                            {
-                                                name: 'Customer Support',
-                                                max: 38000
-                                            },
-                                            {
-                                                name: 'Development',
-                                                max: 52000
-                                            },
-                                            {
-                                                name: 'Marketing',
-                                                max: 25000
-                                            }
-                                            ]
-                                        },
-                                        series: [{
-                                            name: 'Budget vs spending',
-                                            type: 'radar',
-                                            data: [{
-                                                value: [4200, 3000, 20000, 35000, 50000, 18000],
-                                                name: 'Allocated Budget'
-                                            },
-                                            {
-                                                value: [5000, 14000, 28000, 26000, 42000, 21000],
-                                                name: 'Actual Spending'
-                                            }
-                                            ]
-                                        }]
-                                    });
-                                });
-                            </script>
-
-                        </div>
-                    </div><!-- End Budget Report -->
-
-
-
-
-
-                </div><!-- End Right side columns -->
-
+                    </nav>
+                </div>
             </div>
+        </header>
+        <!-- end header section -->
+        <!-- slider section -->
+        <section class="slider_section ">
+            <div class="slider_bg_box">
+                <img src="~/Font-End/images/slider-bg.jpg" alt="">
+            </div>
+            <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-md-7 ">
+                                    <div class="detail-box">
+                                        <h1>
+                                            Chúng tôi cung cấp <br>
+                                            Dịch vụ gửi xe tốt nhất
+                                        </h1>
+                                        <p>
+                                            Hệ thống bãi giữ xe của chúng tôi được thiết kế để đảm bảo sự an toàn và tiện ích cho khách hàng. Với đội ngũ nhân viên chuyên nghiệp và kinh nghiệm, chúng tôi tập trung vào việc cung cấp một không gian lưu trữ xe an toàn và tiện lợi. Quý khách có thể hoàn toàn yên tâm khi sử dụng dịch vụ của chúng tôi, với sự đảm bảo về tính bảo mật và chất lượng. Chúng tôi luôn lắng nghe và cải tiến để đáp ứng mọi nhu cầu của khách hàng, để mang lại trải nghiệm tốt nhất cho mọi người.
+                                        </p>
+                                        @*<div class="btn-box">
+                                        <a href="" class="btn1">
+                                        Get A Quote
+                                        </a>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-md-7 ">
+                                    <div class="detail-box">
+                                        <h1>
+                                            Chúng tôi cung cấp<br>
+                                            Dịch vụ gửi xe an toàn nhất
+                                        </h1>
+                                        <p>
+                                            Hệ thống bãi giữ xe của chúng tôi được thiết kế để đảm bảo sự an toàn và tiện ích cho khách hàng. Với đội ngũ nhân viên chuyên nghiệp và kinh nghiệm, chúng tôi tập trung vào việc cung cấp một không gian lưu trữ xe an toàn và tiện lợi. Quý khách có thể hoàn toàn yên tâm khi sử dụng dịch vụ của chúng tôi, với sự đảm bảo về tính bảo mật và chất lượng. Chúng tôi luôn lắng nghe và cải tiến để đáp ứng mọi nhu cầu của khách hàng, để mang lại trải nghiệm tốt nhất cho mọi người.
+                                        </p>
+                                        @*<div class="btn-box">
+                                        <a href="" class="btn1">
+                                        Get A Quote
+                                        </a>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="col-md-7 ">
+                                    <div class="detail-box">
+                                        <h1>
+                                            Chúng tôi cung cấp  <br>
+                                            Dịch vụ gửi xe tiện lợi nhất
+                                        </h1>
+                                        <p>
+                                            Hệ thống bãi giữ xe của chúng tôi được thiết kế để đảm bảo sự an toàn và tiện ích cho khách hàng. Với đội ngũ nhân viên chuyên nghiệp và kinh nghiệm, chúng tôi tập trung vào việc cung cấp một không gian lưu trữ xe an toàn và tiện lợi. Quý khách có thể hoàn toàn yên tâm khi sử dụng dịch vụ của chúng tôi, với sự đảm bảo về tính bảo mật và chất lượng. Chúng tôi luôn lắng nghe và cải tiến để đáp ứng mọi nhu cầu của khách hàng, để mang lại trải nghiệm tốt nhất cho mọi người.
+                                        </p>
+                                        @*<div class="btn-box">
+                                        <a href="" class="btn1">
+                                        Get A Quote
+                                        </a>
+                                        </div>*@
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <ol class="carousel-indicators">
+                    <li data-target="#customCarousel1" data-slide-to="0" class="active"></li>
+                    <li data-target="#customCarousel1" data-slide-to="1"></li>
+                    <li data-target="#customCarousel1" data-slide-to="2"></li>
+                </ol>
+            </div>
+
         </section>
+        <!-- end slider section -->
+    </div>
 
-   
+    <section class="info_section layout_padding2">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-lg-3 info_col">
+                    <div class="info_contact">
+                        <h4>
+                            Address
+                        </h4>
+                        <div class="contact_link_box">
+                            <a href="#">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i>
+                                <span>
+                                    Location
+                                </span>
+                            </a>
+                            <a href="tel:0344427010">
+                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                <span>
+                                    Call 0344427010
+                                </span>
+                            </a>
+                            <a href="mailto:minhle.28062003@gmail.com">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                                <span>
+                                    minhle.28062003@gmail.com
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="info_social">
+                        <a href="#">
+                            <i class="fa fa-facebook" aria-hidden="true"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-twitter" aria-hidden="true"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-linkedin" aria-hidden="true"></i>
+                        </a>
+                        <a href="#">
+                            <i class="fa fa-instagram" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 info_col">
+                    <div class="info_detail">
+                        <h4>
+                            Info
+                        </h4>
+                        <p>
+                            Chúng tôi cung cấp dịch vụ gửi xe tốt nhất
+                        </p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-2 mx-auto info_col">
+                    <div class="info_link_box">
+                        <h4>
+                            Links
+                        </h4>
+                        <div class="info_links">
+                            <a class="active" href="index.html">
+                                <img src="images/nav-bullet.png" alt="">
+                                Trang chủ
+                            </a>
+                            <a class="" href="about.html">
+                                <img src="images/nav-bullet.png" alt="">
+                                Đặt vé
+                            </a>
+                            <a class="" href="service.html">
+                                <img src="images/nav-bullet.png" alt="">
+                                Giới thiệu
+                            </a>
+                            <a class="" href="contact.html">
+                                <img src="images/nav-bullet.png" alt="">
+                                Liên hệ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3 info_col ">
+                    <h4>
+                        Subscribe
+                    </h4>
+                    <form action="#">
+                        <input type="text" placeholder="Enter email" />
+                        <button type="submit">
+                            Subscribe
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- jQery -->
+    <script type="text/javascript" src="~/Font-End/js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <!-- bootstrap js -->
+    <script type="text/javascript" src="~/Font-End/js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js">
+    </script>
+    <!-- custom js -->
+    <script type="text/javascript" src="~/Font-End/js/custom.js"></script>
+    <!-- Google Map -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+    </script>
+    <!-- End Google Map -->
 
+</body>
 
+</html>

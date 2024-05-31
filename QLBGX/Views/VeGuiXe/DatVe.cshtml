@@ -1,0 +1,89 @@
+﻿@model QLBGX.ViewModel.VeGuiXeViewModel
+@{
+    Layout = null;
+}
+<h2>Đặt vé giữ xe</h2>
+
+<form asp-action="DatVe" enctype="multipart/form-data">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="MaKH" />
+    <input type="hidden" asp-for="TenKH" />
+    <input type="hidden" asp-for="SoDienThoai" />
+
+    <div class="form-group">
+        <label asp-for="MaLoaiVe">Loại vé:</label>
+        <select asp-for="MaLoaiVe" asp-items="@(new SelectList(Model.LoaiVes, "MaLoaiVe", "TenLoaiVe"))" class="form-control"></select>
+        <span asp-validation-for="MaLoaiVe" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="BienSoXe">Biển số xe:</label>
+        <input asp-for="BienSoXe" class="form-control" />
+        <span asp-validation-for="BienSoXe" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="HinhAnhXe">Hình ảnh xe:</label>
+        <input asp-for="HinhAnhXe" type="file" class="form-control" />
+        <span asp-validation-for="HinhAnhXe" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" id="soGioInput" style="display:none;">
+        <label asp-for="SoGio">Số giờ gửi:</label>
+        <input asp-for="SoGio" class="form-control" />
+        <span asp-validation-for="SoGio" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="MaKhuVuc">Khu vực:</label>
+        <select asp-for="MaKhuVuc" asp-items="@(new SelectList(Model.KhuVucs, "MaKhuVuc", "TenKhuVuc"))" class="form-control"></select>
+        <span asp-validation-for="MaKhuVuc" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="SoChoDoXe">Chỗ đỗ:</label>
+        <select asp-for="SoChoDoXe" asp-items="@Model.ChoDoXes" class="form-control"></select>
+        <span asp-validation-for="SoChoDoXe" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Đặt vé</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#MaLoaiVe").change(function () {
+            var selectedLoaiVe = $(this).val();
+            if (selectedLoaiVe == 4) { // Giả sử MaLoaiVe của "Vé giờ" là 4
+                $("#soGioInput").show();
+            } else {
+                $("#soGioInput").hide();
+            }
+        });
+
+        $("#MaKhuVuc").change(function () {
+            var selectedKhuVuc = $(this).val();
+            $.ajax({
+                url: "/VeGuiXe/LayChoDoTheoKhuVuc",
+                type: "GET",
+                data: { maKhuVuc: selectedKhuVuc },
+                success: function (data) {
+                    var selectChoDo = $("#MaChoDoXe");
+                    selectChoDo.empty();
+                    selectChoDo.append($('<option>', {
+                        value: '',
+                        text: '--Chọn chỗ đỗ--'
+                    }));
+                    $.each(data, function (index, item) {
+                        selectChoDo.append($('<option>', {
+                            value: item.maChoDoXe,
+                            text: item.soCho
+                        }));
+                    });
+                }
+            });
+        });
+    });
+</script>

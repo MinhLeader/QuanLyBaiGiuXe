@@ -11,5 +11,7 @@ public partial class LoaiVe
 
     public decimal GiaVe { get; set; }
 
+    public decimal? GiaVeGio { get; set; }
+
     public virtual ICollection<VeGuiXe> VeGuiXes { get; set; } = new List<VeGuiXe>();
 }

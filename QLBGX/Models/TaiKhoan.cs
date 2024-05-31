@@ -13,7 +13,11 @@ public partial class TaiKhoan
 
     public int MaLoaiTaiKhoan { get; set; }
 
+    public int? MaKh { get; set; }
+
     public int? MaNv { get; set; }
+
+    public virtual KhachHang? MaKhNavigation { get; set; }
 
     public virtual LoaiTaiKhoan MaLoaiTaiKhoanNavigation { get; set; } = null!;
 

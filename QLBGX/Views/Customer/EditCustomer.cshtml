@@ -1,0 +1,48 @@
+﻿@model QLBGX.Models.KhachHang
+
+@{
+    ViewData["Title"] = "Sửa thông tin khách hàng";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4">@ViewData["Title"]</h2>
+
+    <form asp-action="EditCustomer">
+        <input type="hidden" asp-for="MaKh" />
+
+        <div class="form-group">
+            <label asp-for="TenKh" class="control-label">Tên Khách Hàng</label>
+            <input asp-for="TenKh" class="form-control" placeholder="Nhập tên khách hàng" />
+            <span asp-validation-for="TenKh" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SoDienThoai" class="control-label">Số Điện Thoại</label>
+            <input asp-for="SoDienThoai" class="form-control" placeholder="Nhập số điện thoại" />
+            <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DiaChi" class="control-label">Địa Chỉ</label>
+            <input asp-for="DiaChi" class="form-control" placeholder="Nhập địa chỉ" />
+            <span asp-validation-for="DiaChi" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="control-label">Email</label>
+            <input asp-for="Email" class="form-control" placeholder="Nhập email" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
+            <a asp-action="ShowCustomer" class="btn btn-secondary ml-2">Quay lại danh sách khách hàng</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

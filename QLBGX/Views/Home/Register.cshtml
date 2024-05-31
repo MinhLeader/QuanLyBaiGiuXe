@@ -1,0 +1,77 @@
+﻿@model QLBGX.ViewModel.RegisterViewModel
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Đăng ký</title>
+    <!-- Thêm Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mt-5">
+                    <div class="card-body">
+                        <h2 class="card-title text-center">Đăng ký</h2>
+                        <form asp-action="Register" method="post" class="mt-4">
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                            <div class="form-group">
+                                <label for="TenDangNhap" class="control-label">Tên đăng nhập</label>
+                                <input id="TenDangNhap" name="TenDangNhap" type="text" class="form-control" placeholder="Nhập tên đăng nhập">
+                                <span asp-validation-for="TenDangNhap" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="MatKhau" class="control-label">Mật khẩu</label>
+                                <input id="MatKhau" name="MatKhau" type="password" class="form-control" placeholder="Nhập mật khẩu">
+                                <span asp-validation-for="MatKhau" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="ConfirmMatKhau" class="control-label">Xác nhận mật khẩu</label>
+                                <input id="ConfirmMatKhau" name="ConfirmMatKhau" type="password" class="form-control" placeholder="Xác nhận mật khẩu">
+                                <span asp-validation-for="ConfirmMatKhau" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="Email" class="control-label">Email</label>
+                                <input id="Email" name="Email" type="email" class="form-control" placeholder="Nhập email">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="TenKH" class="control-label">Tên khách hàng</label>
+                                <input id="TenKH" name="TenKH" type="text" class="form-control" placeholder="Nhập tên khách hàng">
+                                <span asp-validation-for="TenKH" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="SoDienThoai" class="control-label">Số điện thoại</label>
+                                <input id="SoDienThoai" name="SoDienThoai" type="tel" class="form-control" placeholder="Nhập số điện thoại">
+                                <span asp-validation-for="SoDienThoai" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="DiaChi" class="control-label">Địa chỉ</label>
+                                <input id="DiaChi" name="DiaChi" type="text" class="form-control" placeholder="Nhập địa chỉ">
+                                <span asp-validation-for="DiaChi" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-block">Đăng ký</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Thêm Bootstrap JS và các dependency của nó -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>
+

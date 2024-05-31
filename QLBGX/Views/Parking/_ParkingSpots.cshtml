@@ -1,0 +1,451 @@
+﻿@model IEnumerable<QLBGX.ViewModels.ChoDoXeViewModel>
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sơ Đồ Bãi Giữ Xe</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            padding: 20px;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .parking-lot {
+            display: grid;
+            gap: 10px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 3px solid #00796b;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .lane, .entry-exit-lane {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .parking-space {
+            width: 60px;
+            height: 80px;
+            background-color: #cfd8dc;
+            border: 2px solid #37474f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+            .parking-space:hover {
+                background-color: #b0bec5;
+                transform: scale(1.05);
+            }
+
+            /* .parking-space::before {
+                content: "\1F697"; /* Unicode cho biểu tượng xe */
+                font-size: 20px;
+                position: absolute;
+                top: 10px;
+            } */
+
+        .lane + .lane, .entry-exit-lane + .lane {
+            margin-top: 10px;
+        }
+
+        .entry, .exit, .walkway, .column, .spacer {
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .entry {
+            background-color: #388e3c;
+            width: 80px;
+            height: 40px;
+        }
+
+        .exit {
+            background-color: #d32f2f;
+            width: 80px;
+            height: 40px;
+        }
+
+        .walkway {
+            background-color: #b0bec5;
+            height: 32px;
+            width: 100%;
+            margin: 10px;
+        }
+
+        .column {
+            background-color: #0288d1;
+            width: 32px;
+            height: 16px;
+            margin: 0 10px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spacer {
+            background-color: transparent;
+            width: 16px;
+            height: 40px;
+        }
+
+        .entry-exit-lane {
+            justify-content: space-between;
+        }
+
+        .number {
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .available {
+            background-color: green;
+            background-color: #d4edda; /* Màu nền nhẹ hơn */
+        }
+
+        .occupied {
+            background-color: red;
+        }
+
+        .repairing {
+            background-color: yellow;
+        }
+
+        .matching-search {
+    animation: highlight 1s ease-in-out infinite alternate; /* Thêm animation */
+}
+
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="parking-lot">
+            <div class="entry-exit-lane">
+                <div class="entry">Lối Vào</div>
+                <div class="walkway">Xin chào quý khách</div>
+            </div>
+            <!-- Bắt đầu với Lane A -->
+            <div class="lane">
+                <div class="column">A1</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho <= 5))
+                {
+                    <div class="parking-space @(GetSpotClass(spot)) @(spot.IsMatchingSearch ? "matching-search" : "")" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                                         <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div> 
+                                }
+                                break;
+                        }
+                    </div>
+                }
+                <div class="column">A2</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 5 && s.ParkingSpot.SoCho <= 10))
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="walkway">Lối Đi</div>
+            <!-- Bắt đầu với Lane B -->
+            <div class="lane">
+                <div class="column">B1</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 10 && s.ParkingSpot.SoCho <= 15))
+
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+                <div class="column">B2</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 15 && s.ParkingSpot.SoCho <= 20))
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="walkway">Lối Đi</div>
+            <!-- Bắt đầu với Lane C -->
+            <div class="lane">
+                <div class="column">C1</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 20 && s.ParkingSpot.SoCho <= 25))
+
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+                <div class="column">C2</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 25 && s.ParkingSpot.SoCho <= 30))
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="walkway">Lối Đi</div>
+            <!-- Bắt đầu với Lane D -->
+            <div class="lane">
+                <div class="column">D1</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 30 && s.ParkingSpot.SoCho <= 35))
+
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+                <div class="column">D2</div>
+                @foreach (var spot in Model.Where(s => s.ParkingSpot.SoCho > 35 && s.ParkingSpot.SoCho <= 40))
+                {
+                    <div class="parking-space @GetSpotClass(spot)" onclick="showParkingSpotDetails(@spot.ParkingSpot.MaChoDoXe)">
+                        <div class="number">@spot.ParkingSpot.SoCho</div>
+                        @switch (spot.TrangThai)
+                        {
+                            case "Trống":
+                                <span class="status">✅</span>
+                                break;
+                            case "Sửa chữa":
+                                <span class="status">🔧</span>
+                                break;
+                            default:
+                                <span class="status">🚗</span>
+                                @if (!string.IsNullOrEmpty(spot.Vehicle?.BienSoXe))
+                                {
+                                    <div class="vehicle-info">
+                                        @* <span>@spot.Vehicle.BienSoXe</span>
+                        <span>Loại xe: @spot.Vehicle.LoaiXe</span> *@
+                                    </div>
+                                }
+                                break;
+                        }
+                    </div>
+                }
+            </div>
+            <div class="walkway">Lối Đi</div>
+           
+            <div class="entry-exit-lane">
+                <div class="walkway"></div>
+                <div class="exit">Lối Ra</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            window.showParkingSpotDetails = function (parkingSpotId) {
+                $.ajax({
+                    url: '@Url.Action("GetParkingSpotDetails", "Parking")',
+                    data: { id: parkingSpotId },
+                    type: 'GET',
+                    success: function (data) {
+                        $('#parking-spot-details-container').html(data);
+                        $('#parking-spot-details-modal').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Lỗi khi lấy thông tin chi tiết: " + error);
+                    }
+                });
+            };
+        });
+    </script>
+
+    <!-- Modal hiển thị chi tiết vị trí đỗ xe -->
+    <div class="modal fade" id="parking-spot-details-modal" tabindex="-1" role="dialog" aria-labelledby="parkingSpotDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="parkingSpotDetailsModalLabel">Chi tiết chỗ đỗ xe</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="parking-spot-details-container">
+                    <!-- Chi tiết chỗ đỗ xe sẽ được tải vào đây -->
+                </div>
+            </div>
+        </div>
+    </div>
+    @functions {
+        private string GetSpotClass(QLBGX.ViewModels.ChoDoXeViewModel spot)
+        {
+            return spot.TrangThai switch
+            {
+                "Trống" => "available",
+                "Sửa chữa" => "repairing",
+                "Đã đỗ" => "occupied",
+                _ => "unknown-status",
+            };
+        }
+    }
+</body>
+</html>
