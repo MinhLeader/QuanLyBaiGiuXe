@@ -1,0 +1,105 @@
+﻿@model QLBGX.Models.VeGuiXe
+
+@{
+    ViewData["Title"] = "Chi Tiết Vé Gửi Xe";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-header-custom {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .card-body-custom {
+            background-color: #f8f9fa;
+        }
+
+        .detail-title {
+            font-weight: bold;
+        }
+
+        .img-custom {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .info-section {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row mb-4">
+            <div class="col text-center">
+                <h1 class="display-4">Chi Tiết Vé Gửi Xe</h1>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header card-header-custom text-center">
+                <h4 class="card-title mb-0">Thông Tin Vé Gửi Xe</h4>
+            </div>
+            <div class="card-body card-body-custom">
+                <div class="row">
+                    <div class="col-md-6 info-section">
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Biển Số Xe:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.BienSoXe)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Loại Vé:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.MaLoaiVeNavigation.TenLoaiVe)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Ngày Gửi:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.NgayGui)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Ngày Lấy:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.NgayLay)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Khách Hàng:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.MaKhNavigation.TenKh)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Ngày Hết Hạn:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.NgayHetHan)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Số Giờ:</div>
+                            <div class="col-sm-8">@Html.DisplayFor(model => model.SoGio)</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4 detail-title">Tổng Tiền:</div>
+                            <div class="col-sm-8">@string.Format("{0:N0} vnđ", Model.TongTien)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <img src="~/assets/img/@Model.BienSoXeNavigation.HinhAnh" alt="Hình ảnh của xe" class="img-custom" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col text-center">
+                <a class="btn btn-warning" asp-action="EditTicket" asp-route-id="@Model.MaVe">Chỉnh Sửa</a>
+                <a class="btn btn-secondary" asp-action="ShowTicket">Quay Lại Danh Sách</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

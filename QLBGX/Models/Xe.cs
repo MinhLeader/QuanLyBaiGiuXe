@@ -7,7 +7,7 @@ public partial class Xe
 {
     public string BienSoXe { get; set; } = null!;
 
-    public int MaMauXe { get; set; }
+    public int MaMauXe { get; set; } = 5;
 
     public string HieuXe { get; set; } = null!;
 

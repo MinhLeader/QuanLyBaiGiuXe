@@ -1,89 +1,462 @@
 ﻿@model QLBGX.ViewModel.VeGuiXeViewModel
+
 @{
     Layout = null;
 }
-<h2>Đặt vé giữ xe</h2>
 
-<form asp-action="DatVe" enctype="multipart/form-data">
-    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đặt vé giữ xe</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="~/lib/tinymce/js/tinymce/tinymce.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
 
-    <input type="hidden" asp-for="MaKH" />
-    <input type="hidden" asp-for="TenKH" />
-    <input type="hidden" asp-for="SoDienThoai" />
+        .container {
+            padding: 20px;
+            background-color: #ffffff;
+            display: flex; 
+           justify-content: center; 
+            width: 100%;
+            /* overflow-x: auto; */
+        }
 
-    <div class="form-group">
-        <label asp-for="MaLoaiVe">Loại vé:</label>
-        <select asp-for="MaLoaiVe" asp-items="@(new SelectList(Model.LoaiVes, "MaLoaiVe", "TenLoaiVe"))" class="form-control"></select>
-        <span asp-validation-for="MaLoaiVe" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="BienSoXe">Biển số xe:</label>
-        <input asp-for="BienSoXe" class="form-control" />
-        <span asp-validation-for="BienSoXe" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="HinhAnhXe">Hình ảnh xe:</label>
-        <input asp-for="HinhAnhXe" type="file" class="form-control" />
-        <span asp-validation-for="HinhAnhXe" class="text-danger"></span>
-    </div>
-
-    <div class="form-group" id="soGioInput" style="display:none;">
-        <label asp-for="SoGio">Số giờ gửi:</label>
-        <input asp-for="SoGio" class="form-control" />
-        <span asp-validation-for="SoGio" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="MaKhuVuc">Khu vực:</label>
-        <select asp-for="MaKhuVuc" asp-items="@(new SelectList(Model.KhuVucs, "MaKhuVuc", "TenKhuVuc"))" class="form-control"></select>
-        <span asp-validation-for="MaKhuVuc" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="SoChoDoXe">Chỗ đỗ:</label>
-        <select asp-for="SoChoDoXe" asp-items="@Model.ChoDoXes" class="form-control"></select>
-        <span asp-validation-for="SoChoDoXe" class="text-danger"></span>
-    </div>
+        .parking-lot {
+            display: flex;
+            gap: 10px;
+            background-color: #ffffff;
+            padding: 20px;
+            border: 3px solid #00796b;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 1000px;
+            flex-wrap: wrap;
+        }
 
 
-    <button type="submit" class="btn btn-primary">Đặt vé</button>
-</form>
+        .lane, .entry-exit-lane {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#MaLoaiVe").change(function () {
-            var selectedLoaiVe = $(this).val();
-            if (selectedLoaiVe == 4) { // Giả sử MaLoaiVe của "Vé giờ" là 4
-                $("#soGioInput").show();
-            } else {
-                $("#soGioInput").hide();
+        .parking-space {
+            width: 80px;
+            height: 100px;
+            background-color: #cfd8dc;
+            border: 2px solid #37474f;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s, transform 0.3s;
+            position: relative;
+            cursor: pointer; /* Thêm con trỏ khi di chuột qua */
+        }
+
+            .parking-space:hover {
+                background-color: #b0bec5;
+                transform: scale(1.05);
             }
-        });
 
-        $("#MaKhuVuc").change(function () {
-            var selectedKhuVuc = $(this).val();
-            $.ajax({
-                url: "/VeGuiXe/LayChoDoTheoKhuVuc",
-                type: "GET",
-                data: { maKhuVuc: selectedKhuVuc },
-                success: function (data) {
-                    var selectChoDo = $("#MaChoDoXe");
-                    selectChoDo.empty();
-                    selectChoDo.append($('<option>', {
-                        value: '',
-                        text: '--Chọn chỗ đỗ--'
-                    }));
-                    $.each(data, function (index, item) {
-                        selectChoDo.append($('<option>', {
-                            value: item.maChoDoXe,
-                            text: item.soCho
-                        }));
-                    });
+     
+
+        .lane + .lane, .entry-exit-lane + .lane {
+            margin-top: 10px;
+        }
+
+        .entry, .exit, .walkway, .column, .spacer {
+            font-size: 12px;
+            text-align: center;
+            font-weight: bold;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+        }
+
+        .entry {
+            background-color: #388e3c;
+            width: 80px;
+            height: 40px;
+        }
+
+        .exit {
+            background-color: #d32f2f;
+            width: 80px;
+            height: 40px;
+        }
+
+        .walkway {
+            background-color: #b0bec5;
+            height: 32px;
+            width: 100%;
+            margin: 10px;
+        }
+
+        .column {
+            background-color: #0288d1;
+            width: 32px;
+            height: 16px;
+            margin: 0 10px;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .spacer {
+            background-color: transparent;
+            width: 16px;
+            height: 40px;
+        }
+
+        .entry-exit-lane {
+            justify-content: space-between;
+        }
+
+        .number {
+            position: absolute;
+            bottom: 10px;
+        }
+
+        .available {
+            background-color: green;
+            color: white;
+        }
+
+        .occupied {
+            background-color: darkred;
+            color: white;
+            cursor: not-allowed;
+        }
+
+        .selected {
+            background-color: orange;
+            color: white;
+        }
+
+        .repairing {
+            background-color: yellow;
+        }
+
+        .matching-search {
+            animation: highlight 1s ease-in-out infinite alternate; /* Thêm animation */
+        }
+
+        /* .parking-space.selected {
+            background-color: #007bff; /* Màu xanh dương 
+            color: white;
+        } */
+
+        .form-container {
+            flex: 1; /* Phần form chiếm 1 phần */
+            padding-right: 20px;
+        }
+
+        .parking-lot-container {
+            flex: 1; /* Phần sơ đồ chiếm 1 phần */
+        }
+
+        .parking-space.available {
+            background-color: #d4edda; /* Màu xanh lá cây nhạt */
+        }
+
+        .parking-space.occupied {
+            background-color: #f08080; /* Màu đỏ nhạt */
+            pointer-events: none; /* Không cho phép click vào ô đã đặt */
+        }
+    </style>
+</head>
+<body>
+    <h2 class="text-center mb-4">Đặt vé giữ xe</h2>
+    <div class="container">
+        <div class="form-container">
+
+            <form id="bookingForm" method="post" action="/VeGuiXe/DatVe" enctype="multipart/form-data" onsubmit="return confirmBooking();">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="MaKh" />
+                    <input type="" asp-for="TenKh" />
+                    <input type="" asp-for="SoDienThoai" />
+
+                    <div class="form-group">
+                        <label asp-for="MaLoaiVe">Loại vé:</label>
+                        <select asp-for="MaLoaiVe" asp-items="@(new SelectList(Model.LoaiVes, "MaLoaiVe", "TenLoaiVe"))" class="form-control"></select>
+                        <span asp-validation-for="MaLoaiVe" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="BienSoXe">Biển số xe:</label>
+                        <input asp-for="BienSoXe" class="form-control" />
+                        <span asp-validation-for="BienSoXe" class="text-danger"></span>
+                    </div>
+                <!-- Thêm các trường mới -->
+                <div class="form-group">
+                    <label asp-for="HieuXe">Hiệu xe </label>
+                    <input asp-for="HieuXe" class="form-control" />
+                    <span asp-validation-for="HieuXe" class="text-danger"></span>
+
+                </div>
+                <div class="form-group">
+                    <label asp-for="Model"></label>
+                    <input asp-for="Model" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="LoaiXe"></label>
+                    <input asp-for="LoaiXe" class="form-control" />
+                </div>
+
+                    <div class="form-group">
+                        <label asp-for="HinhAnhXe">Hình ảnh xe:</label>
+                        <input asp-for="HinhAnhXe" type="file" class="form-control" />
+                        <span asp-validation-for="HinhAnhXe" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" id="soGioInput" style="display:none;">
+                        <label asp-for="SoGio">Số giờ gửi:</label>
+                        <input asp-for="SoGio" class="form-control" />
+                        <span asp-validation-for="SoGio" class="text-danger"></span>
+                    </div>
+
+                    <input type="hidden" id="selectedParkingSpotId" asp-for="SoChoDoXe" />
+
+                    <button type="submit" class="btn btn-primary">Đặt vé</button>
+                </form>
+            </div>
+
+
+        <div class="parking-lot-container">
+                <div class="parking-lot">
+                    <div class="entry-exit-lane">
+                        <div class="entry">Lối Vào</div>
+                        <div class="walkway">Xin chào quý khách</div>
+                    </div>
+                    @* *@
+                    @foreach (var khuVuc in Model.KhuVucs)
+                    {
+                    @if (khuVuc.MaKhuVuc == 1)
+                    {
+                        <div class="lane">
+                            <div class="column">A1</div>
+                            @for (int i = 1; i <= 5; i++) // Giả sử mỗi khu vực có tối đa 5 chỗ
+                            {
+                            var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                            string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                            <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                 data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                 onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                            <div class="column">A2</div>
+                            @for (int i = 6; i <= 10; i++)
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="walkway">Lối đi</div>
+                        <!-- Bắt đầu với Lane B -->
+                        <div class="lane">
+                            <div class="column">B1</div>
+                            @for (int i = 11; i <= 15; i++) // Giả sử mỗi khu vực có tối đa 5 chỗ
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                            <div class="column">B2</div>
+                            @for (int i = 16; i <= 20; i++)
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="walkway">Lối đi</div>
+                        <!-- Bắt đầu với Lane C -->
+                        <div class="lane">
+                            <div class="column">C1</div>
+                            @for (int i = 21; i <= 25; i++) // Giả sử mỗi khu vực có tối đa 5 chỗ
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                            <div class="column">C2</div>
+                            @for (int i = 26; i <= 30; i++)
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="walkway">Lối đi</div>
+                        <!-- Bắt đầu với Lane D -->
+                        <div class="lane">
+                            <div class="column">D1</div>
+                            @for (int i = 31; i <= 35; i++) // Giả sử mỗi khu vực có tối đa 5 chỗ
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                            <div class="column">D2</div>
+                            @for (int i = 36; i <= 40; i++)
+                            {
+                                var choDo = Model.ChoDoXeList.FirstOrDefault(c => c.Value == (khuVuc.MaKhuVuc * 0 + i).ToString());
+                                string statusClass = choDo?.Disabled == true ? "occupied" : "available";
+                                <div class="parking-space @(statusClass) @(choDo != null && choDo.Selected ? "selected" : "")"
+                                     data-parking-spot-id="@(khuVuc.MaKhuVuc * 0 + i)"
+                                     onclick="selectParkingSpot('@(khuVuc.MaKhuVuc * 0 + i)', '@(choDo?.Disabled == true ? "occupied" : "available")')">
+                                    <div class="number">@i</div>
+                                    @if (choDo != null && choDo.Selected)
+                                    {
+                                        <span class="status">✅</span>
+                                    }
+                                </div>
+                            }
+                        </div>
+                        <div class="walkway">Lối đi</div>
+                       
+                    }
+                    }
+                    <div class="entry-exit-lane">
+                        <div class="walkway"></div>
+                        <div class="exit">Lối Ra</div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+    <script>
+        $(document).ready(function () {
+            $("#MaLoaiVe").change(function () {
+                var selectedLoaiVe = $(this).val();
+                if (selectedLoaiVe == "4") {
+                    $("#soGioInput").show();
+                } else {
+                    $("#soGioInput").hide();
                 }
             });
+
+            $("#MaKhuVuc").change(function () {
+                var selectedKhuVuc = $(this).val();
+                $.ajax({
+                    url: "/VeGuiXe/LayChoDoTheoKhuVuc",
+                    type: "GET",
+                    data: { maKhuVuc: selectedKhuVuc },
+                    success: function (data) {
+                        var selectChoDo = $("#SoChoDoXe");
+                        selectChoDo.empty();
+                        selectChoDo.append($('<option>', {
+                            value: '',
+                            text: '--Chọn chỗ đỗ--'
+                        }));
+                        $.each(data, function (index, item) {
+                            selectChoDo.append($('<option>', {
+                                value: item.maChoDoXe,
+                                text: item.soCho,
+                                disabled: item.maTrangThai != 1 // Disable option if it's not available
+
+                            }));
+                        });
+                    }
+                });
+            });
+
+            // Hàm cập nhật chỗ đậu xe đã chọn
+            window.selectParkingSpot = function (parkingSpotId, status) {
+                if (status === "occupied") {
+                    alert("Chỗ này đã có người đặt!");
+                    return;
+                }
+                // Cập nhật trường ẩn trong form
+                $('#selectedParkingSpotId').val(parkingSpotId);
+
+                // Đánh dấu chỗ đỗ đã chọn
+                $('.parking-space').removeClass('selected');
+                $(`[data-parking-spot-id="${parkingSpotId}"]`).addClass('selected');
+            };
         });
-    });
-</script>
+        function confirmBooking() {
+            var selectedParkingSpotId = $('#selectedParkingSpotId').val();
+            if (!selectedParkingSpotId) {
+                alert('Vui lòng chọn một chỗ đỗ xe!');
+                return false; // Ngăn chặn gửi form
+            }
+            return confirm("Bạn có chắc chắn muốn đặt vé không?");
+        }
+    </script>
+</body>
+</html>
+
+

@@ -35,7 +35,7 @@
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             border-radius: 20px;
             width: 100%;
-            max-width: 1000px;
+            /* max-width: 1000px; */
         }
 
         .lane, .entry-exit-lane {
@@ -45,8 +45,8 @@
         }
 
         .parking-space {
-            width: 60px;
-            height: 80px;
+            width: 80px;
+            height: 100px;
             background-color: #cfd8dc;
             border: 2px solid #37474f;
             display: flex;
@@ -66,7 +66,7 @@
             }
 
             /* .parking-space::before {
-                content: "\1F697"; /* Unicode cho biểu tượng xe */
+                content: "\1F697"; /* Unicode cho biểu tượng xe 
                 font-size: 20px;
                 position: absolute;
                 top: 10px;
@@ -108,8 +108,8 @@
 
         .column {
             background-color: #0288d1;
-            width: 32px;
-            height: 16px;
+            width: 30px;
+            height: 100px;
             margin: 0 10px;
             color: white;
             display: flex;
@@ -138,7 +138,7 @@
         }
 
         .occupied {
-            background-color: red;
+            background-color: #ff0000d6;
         }
 
         .repairing {
@@ -442,7 +442,7 @@
             {
                 "Trống" => "available",
                 "Sửa chữa" => "repairing",
-                "Đã đỗ" => "occupied",
+                "Có xe" => "occupied",
                 _ => "unknown-status",
             };
         }

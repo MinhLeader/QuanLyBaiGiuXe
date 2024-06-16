@@ -15,7 +15,7 @@ body {
 }
 
 .area-button {
-    padding: 10px 20px;
+    padding: 10px 50px;
     margin: 0 10px;
     background-color: #007bff;
     color: white;
@@ -36,15 +36,7 @@ body {
 
 /* Các lớp trạng thái và chỉ báo trạng thái giữ nguyên */
 
-.error-message {
-    color: red;
-    text-align: center;
-    margin-top: 20px;
-    font-weight: bold; /* Làm nổi bật thông báo lỗi */
-    background-color: #f8d7da; /* Thêm màu nền */
-    padding: 10px; /* Thêm padding */
-    border-radius: 5px; /* Bo tròn góc */
-}
+
 </style>
 
 <div class="search-container">
@@ -63,7 +55,7 @@ body {
     <!-- Các vị trí đỗ xe sẽ được hiển thị ở đây -->
 </div>
 
-<div id="error-container" class="error-message"></div>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -71,6 +63,11 @@ body {
         // Khi một nút khu vực được nhấp, tải các chỗ đỗ xe tương ứng
         $('.area-button').click(function () {
             var areaId = $(this).data('area-id');
+            loadParkingSpots(areaId);
+        });
+
+        // Hàm để tải các chỗ đỗ xe cho khu vực cụ thể
+        function loadParkingSpots(areaId) {
             $('#error-container').empty(); // Xóa thông báo lỗi trước đó
             $.ajax({
                 url: '@Url.Action("GetParkingSpots", "Parking")',
@@ -84,7 +81,10 @@ body {
                     $('#error-container').text("Lỗi khi tải thông tin: " + error);
                 }
             });
-        });
+        }
+
+        // Gọi hàm loadParkingSpots với khu vực mặc định (ví dụ: khu vực 1) khi trang được tải
+        loadParkingSpots(1);
 
         // Hàm để hiển thị chi tiết chỗ đỗ xe
         window.showParkingSpotDetails = function (parkingSpotId) {
@@ -102,7 +102,8 @@ body {
                 }
             });
         };
-        // tim kim xe
+
+        // Tìm kiếm xe
         $('#searchButton').click(function () {
             var searchTerm = $('#searchInput').val().toLowerCase();
 

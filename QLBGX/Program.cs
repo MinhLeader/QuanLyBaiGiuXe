@@ -21,8 +21,7 @@ builder.Services.AddScoped<TaiKhoanService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/Home/Login"; // Đường dẫn đến trang đăng nhập
-        //options.AccessDeniedPath = "/Account/AccessDenied"; // Đường dẫn đến trang từ chối truy cập
+        options.LoginPath = "/Home/Login"; 
     });
 
 
@@ -39,10 +38,10 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-
+app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Login}/{id?}");
-app.UseAuthorization();
+// app.UseAuthorization();
 
 app.Run();

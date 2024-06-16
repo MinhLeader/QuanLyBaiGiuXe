@@ -1,20 +1,122 @@
 ﻿@model QLBGX.ViewModel.XacNhanDatVeViewModel
-<h2>Xác nhận đặt vé</h2>
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Chi Tiết Vé Gửi Xe";
+}
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+<style>
+    .ticket-container {
+        border: 2px dashed #007bff; /* Viền nét đứt màu xanh */
+        padding: 30px;
+        border-radius: 15px;
+        margin-top: 30px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Hiệu ứng bóng đổ */
+    }
+
+    .ticket-header {
+        background-color: #f0f0f5; /* Nền màu xám nhạt */
+        padding: 15px;
+        border-radius: 12px 12px 0 0;
+        text-align: center;
+    }
+
+        .ticket-header h2 {
+            color: #007bff; /* Màu xanh */
+        }
+
+    .ticket-body {
+        padding: 20px;
+    }
+
+        .ticket-body p {
+            margin-bottom: 8px;
+        }
+
+    .ticket-footer {
+        background-color: #f0f0f5;
+        padding: 15px;
+        border-radius: 0 0 12px 12px;
+        text-align: center;
+    }
+
+        .ticket-footer p.total-price {
+            color: #ff0000; /* Màu đỏ đậm */
+            font-size: 1.2rem; /* Kích thước chữ lớn hơn */
+            font-weight: bold; /* Chữ đậm */
+            padding: 10px 20px; /* Khoảng cách xung quanh */
+            text-align: center; /* Căn giữa */
+            margin-top: 10px; /* Khoảng cách với phần trên */
+        }
+</style>
+
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <p><strong>Mã vé:</strong> @Model.VeGuiXe.MaVe</p>
-            <p><strong>Tên khách hàng:</strong> @Model.VeGuiXe.MaKhNavigation?.TenKh</p>
-            <p><strong>Biển số xe:</strong> @Model.VeGuiXe.BienSoXe</p>
-            <p><strong>Loại vé:</strong> @Model.VeGuiXe.MaLoaiVeNavigation.TenLoaiVe</p>
-            <p><strong>Ngày gửi:</strong> @Model.VeGuiXe.NgayGui.ToString("dd/MM/yyyy HH:mm")</p>
-            @if (Model.VeGuiXe.NgayHetHan.HasValue)
-            {
-                <p><strong>Ngày hết hạn:</strong> @Model.VeGuiXe.NgayHetHan.Value.ToString("dd/MM/yyyy HH:mm")</p>
-            }
-            <p><strong>Khu vực:</strong> @Model.ChoDoXe.MaKhuVucNavigation.TenKhuVuc</p>
-            <p><strong>Chỗ đỗ:</strong> @Model.ChoDoXe.SoCho</p>
-            <p><strong>Giá vé:</strong> @Model.VeGuiXe.GiaVe.ToString("C")</p>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="ticket-container" id="ticketToPrint">
+                <div class="ticket-header">
+                    <h2>Vé Gửi Xe</h2>
+                </div>
+
+                <div class="ticket-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>Mã vé:</strong> @Model.VeGuiXe.MaVe</p>
+                            <p><strong>Tên khách hàng:</strong> @Model.VeGuiXe.MaKhNavigation?.TenKh</p>
+                            <p><strong>Biển số xe:</strong> @Model.VeGuiXe.BienSoXe</p>
+                            <p><strong>Loại vé:</strong> @Model.VeGuiXe.MaLoaiVeNavigation.TenLoaiVe</p>
+                            <p><strong>Ngày gửi:</strong> @Model.VeGuiXe.NgayGui.ToString("dd/MM/yyyy HH:mm")</p>
+                            @if (Model.VeGuiXe.NgayHetHan.HasValue)
+                            {
+                                <p><strong>Ngày hết hạn:</strong> @Model.VeGuiXe.NgayHetHan.Value.ToString("dd/MM/yyyy HH:mm")</p>
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Khu vực:</strong> @Model.ChoDoXe.MaKhuVucNavigation.TenKhuVuc</p>
+                            <p><strong>Chỗ đỗ:</strong> @Model.ChoDoXe.SoCho</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="ticket-footer">
+                    <p class="total-price">Tổng tiền: @string.Format("{0:N0} VNĐ", Model.VeGuiXe.TongTien)</p>
+
+                    <p>Cảm ơn quý khách đã tin tưởng và sử dụng dịch vụ của chúng tôi!</p>
+                    <p>Chúc quý khách một ngày tốt lành và lái xe an toàn!</p>
+                </div>
+            </div>
         </div>
     </div>
+
+    <div class="d-flex justify-content-center mt-3">
+        <button onclick="window.location.href = '@Url.Action("Index", "Home")'" class="btn btn-primary mr-3">Quay lại trang chủ</button>
+        <button onclick="printAndDownloadTicket()" class="btn btn-secondary">In vé</button>
+    </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script>
+    async function printAndDownloadTicket() {
+        const { jsPDF } = window.jspdf;
+        const ticket = document.getElementById('ticketToPrint');
+
+        // Sử dụng html2canvas để chụp ảnh phần vé
+        html2canvas(ticket).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            const doc = new jsPDF();
+
+            // Thêm ảnh vào PDF
+            doc.addImage(imgData, 'PNG', 10, 10);
+            doc.save('ticket.pdf');
+
+            // In tài liệu
+            window.print();
+
+            // Hiển thị thông báo in vé thành công
+            alert('In vé thành công!');
+        });
+    }
+</script>

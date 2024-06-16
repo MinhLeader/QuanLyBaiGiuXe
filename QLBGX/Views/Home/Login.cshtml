@@ -14,6 +14,10 @@
     <style>
         body {
             background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
 
         .card {
@@ -22,15 +26,19 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
-        .btn-primary {
-            background-color: #007bff;
+        .btn-primary, .btn-secondary {
             border: none;
             border-radius: 20px;
             padding: 10px 20px;
+            margin-top: 10px;
         }
 
             .btn-primary:hover {
                 background-color: #0056b3;
+            }
+
+            .btn-secondary:hover {
+                background-color: #5a6268;
             }
 
         .form-control {
@@ -43,13 +51,17 @@
             font-weight: 300;
             color: #007bff;
         }
+
+        .text-center-custom {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <div class="card mt-5">
+                <div class="card">
                     <div class="card-body">
                         <h2 class="card-title text-center">Đăng Nhập</h2>
                         <form asp-action="Login" method="post" class="mt-4">
@@ -68,6 +80,9 @@
                                 <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
                             </div>
                         </form>
+                        <div class="text-center-custom">
+                            <p>Chưa có tài khoản? <a href="@Url.Action("Register", "Home")" class="btn btn-secondary">Đăng ký ngay</a></p>
+                        </div>
                     </div>
                 </div>
             </div>
