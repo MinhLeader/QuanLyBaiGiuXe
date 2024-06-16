@@ -1,0 +1,73 @@
+﻿@model IEnumerable<QLBGX.Models.VeGuiXe>
+
+@{
+    ViewData["Title"] = "Quản Lý Vé Giữ Xe";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row mb-3">
+            <div class="col">
+                <h1 class="display-4">Quản Lý Vé Giữ Xe</h1>
+            </div>
+            <div class="col text-right">
+                <a class="btn btn-primary" asp-action="CreateTicket">Tạo Vé</a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Biển Số Xe</th>
+                    <th scope="col">Loại Vé</th>
+                    <th scope="col">Ngày Gửi</th>
+                    <th scope="col">Ngày Lấy</th>
+                    <th scope="col">Khách Hàng</th>
+                    <th scope="col">Ngày Hết Hạn</th>
+                    <th scope="col">Số Giờ</th>
+                    <th scope="col">Tổng Tiền</th>
+                    <th scope="col">Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    var index = 1;
+                }
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@index</th>
+                        <td>@Html.DisplayFor(modelItem => item.BienSoXe)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaLoaiVeNavigation.TenLoaiVe)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NgayGui)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NgayLay)</td>
+                        <td>@Html.DisplayFor(modelItem => item.MaKhNavigation.TenKh)</td>
+                        <td>@Html.DisplayFor(modelItem => item.NgayHetHan)</td>
+                        <td>@Html.DisplayFor(modelItem => item.SoGio)</td>
+                        <td>@string.Format("{0:N0} vnđ", item.TongTien)</td>
+                        <td>
+                            <a class="btn btn-sm btn-warning" asp-action="EditTicket" asp-route-id="@item.MaVe">Sửa</a>
+                            <a class="btn btn-sm btn-info" asp-action="DetailsTicket" asp-route-id="@item.MaVe">Chi tiết</a>
+                            <a class="btn btn-sm btn-danger" asp-action="DeleteTicket" asp-route-id="@item.MaVe">Xóa</a>
+                        </td>
+                    </tr>
+                    index++;
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -269,6 +269,7 @@ public partial class QuanLyBaiGiuXeContext : DbContext
             entity.Property(e => e.NgayGui).HasColumnType("datetime");
             entity.Property(e => e.NgayHetHan).HasColumnType("datetime");
             entity.Property(e => e.NgayLay).HasColumnType("datetime");
+            entity.Property(e => e.TongTien).HasColumnType("decimal(18, 2)");
 
             entity.HasOne(d => d.BienSoXeNavigation).WithMany(p => p.VeGuiXes)
                 .HasForeignKey(d => d.BienSoXe)

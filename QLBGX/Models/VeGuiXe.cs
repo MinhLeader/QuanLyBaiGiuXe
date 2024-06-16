@@ -23,6 +23,8 @@ public partial class VeGuiXe
 
     public int? MaChoDoXe { get; set; }
 
+    public decimal? TongTien { get; set; }
+
     public virtual Xe BienSoXeNavigation { get; set; } = null!;
 
     public virtual ICollection<LichSuGiaoDich> LichSuGiaoDiches { get; set; } = new List<LichSuGiaoDich>();
